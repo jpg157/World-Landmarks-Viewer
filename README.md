@@ -1,1 +1,0 @@
-# Landmark-Discovery-App
