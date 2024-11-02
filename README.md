@@ -1,1 +1,1 @@
-# Landmark-View-App
+# World-Landmarks-Viewer
