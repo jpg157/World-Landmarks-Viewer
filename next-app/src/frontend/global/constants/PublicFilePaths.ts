@@ -1,0 +1,1 @@
+export const landmarkAssetsPath = '/public/landmarkData/'; //TODO: Remove once json and image data stored in db
