@@ -1,1 +1,1 @@
-# Landmark-Discovery-App
+# Landmark-View-App
