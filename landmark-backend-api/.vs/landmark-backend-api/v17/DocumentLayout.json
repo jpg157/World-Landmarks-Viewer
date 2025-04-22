@@ -1,29 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\",
+  "WorkspaceRootPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|c:\\users\\jason\\desktop\\coding projects\\personal projects\\world-landmarks-viewer\\landmark-backend-api\\landmark-backend-api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|solutionrelative:landmark-backend-api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|c:\\users\\jason\\desktop\\coding projects\\personal projects\\world-landmarks-viewer\\landmark-backend-api\\landmark-backend-api\\src\\services\\imagefileservice\\imagefileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|solutionrelative:landmark-backend-api\\src\\services\\imagefileservice\\imagefileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|c:\\users\\jason\\desktop\\coding projects\\personal projects\\world-landmarks-viewer\\landmark-backend-api\\landmark-backend-api\\src\\endpoints\\images\\images.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|solutionrelative:landmark-backend-api\\src\\endpoints\\images\\images.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|c:\\users\\jason\\desktop\\coding projects\\personal projects\\world-landmarks-viewer\\landmark-backend-api\\landmark-backend-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F7FD8F-47E8-4D30-8FC7-61163487A2F3}|landmark-backend-api\\landmark-backend-api.csproj|solutionrelative:landmark-backend-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.sln||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:landmark-backend-api\\landmark-backend-api.sln||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{9EEB3B56-B7E1-E7F9-8E11-1B5579698360}|landmark-backend-api.csproj|c:\\users\\jason\\desktop\\coding projects\\personal projects\\world-landmarks-viewer\\landmark-backend-api\\landmark-backend-api\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9EEB3B56-B7E1-E7F9-8E11-1B5579698360}|landmark-backend-api.csproj|solutionrelative:.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,76 +23,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": ".gitignore",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\.gitignore",
-              "RelativeDocumentMoniker": "..\\.gitignore",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\.gitignore",
-              "RelativeToolTip": "..\\.gitignore",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAGAAAAAAAAAA==",
+              "Title": ".env",
+              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\.env",
+              "RelativeDocumentMoniker": ".env",
+              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\.env",
+              "RelativeToolTip": ".env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-04-22T21:05:04.342Z",
+              "WhenOpened": "2025-04-22T21:28:58.464Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "landmark-backend-api\\appsettings.Development.json",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\appsettings.Development.json",
-              "RelativeToolTip": "landmark-backend-api\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-22T20:35:35.804Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "landmark-backend-api.sln",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.sln",
-              "RelativeDocumentMoniker": "landmark-backend-api\\landmark-backend-api.sln",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.sln",
-              "RelativeToolTip": "landmark-backend-api\\landmark-backend-api.sln",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002855|",
-              "WhenOpened": "2025-04-22T20:36:19.649Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ImageFileService.cs",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Src\\Services\\ImageFileService\\ImageFileService.cs",
-              "RelativeDocumentMoniker": "landmark-backend-api\\Src\\Services\\ImageFileService\\ImageFileService.cs",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Src\\Services\\ImageFileService\\ImageFileService.cs",
-              "RelativeToolTip": "landmark-backend-api\\Src\\Services\\ImageFileService\\ImageFileService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T20:30:30.817Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Images.cs",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Src\\Endpoints\\Images\\Images.cs",
-              "RelativeDocumentMoniker": "landmark-backend-api\\Src\\Endpoints\\Images\\Images.cs",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Src\\Endpoints\\Images\\Images.cs",
-              "RelativeToolTip": "landmark-backend-api\\Src\\Endpoints\\Images\\Images.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T20:29:43.639Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Program.cs",
-              "RelativeDocumentMoniker": "landmark-backend-api\\Program.cs",
-              "ToolTip": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\Program.cs",
-              "RelativeToolTip": "landmark-backend-api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T04:31:44.775Z"
             }
           ]
         }
