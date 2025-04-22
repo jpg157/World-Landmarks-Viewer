@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "jYRaZzbfhOUPySsG8icn7jpZurWfEcXrOIsAQYodzCM=",
+  "Source": "landmark-backend-api",
+  "BasePath": "_content/landmark-backend-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

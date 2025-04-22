@@ -1,0 +1,3 @@
+// can sent req to running http server via this file
+
+GET  http://localhost:5000/api/landmarks-view/landmarks
