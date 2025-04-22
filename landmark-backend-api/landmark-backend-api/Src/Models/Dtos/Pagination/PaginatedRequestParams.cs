@@ -1,4 +1,4 @@
-namespace landmark_backend_api.Models.Pagination;
+namespace landmark_backend_api.Models.Dtos.Pagination;
 
 /// <summary>
 /// Params from request data. No required properties.

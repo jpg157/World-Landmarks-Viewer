@@ -10,8 +10,8 @@ const LandmarkImage = (imageProps: LandmarkImageProps) => {
 
   return (
     <Image
-    src={'/landmarkData/images/' + imageProps.imageSrc}
-    alt={imageProps.imageSrc}
+    src={imageProps.imageSrc}
+    alt={imageProps.imageAlt}
     height={1000}
     width={1000}
     className={`object-cover h-[100%] w-[100%] rounded-md`}

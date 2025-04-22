@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\Landmark-Discovery-App_v2\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj": {}
+    "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\Landmark-Discovery-App_v2\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj": {
+    "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\Landmark-Discovery-App_v2\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj",
+        "projectUniqueName": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj",
         "projectName": "landmark-backend-api",
-        "projectPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\Landmark-Discovery-App_v2\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj",
+        "projectPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\landmark-backend-api.csproj",
         "packagesPath": "C:\\Users\\jason\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\Landmark-Discovery-App_v2\\landmark-backend-api\\landmark-backend-api\\obj\\",
+        "outputPath": "C:\\Users\\jason\\Desktop\\Coding Projects\\Personal Projects\\World-Landmarks-Viewer\\landmark-backend-api\\landmark-backend-api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,16 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.27.5, )"
+            },
+            "dotenv.net": {
+              "target": "Package",
+              "version": "[3.2.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

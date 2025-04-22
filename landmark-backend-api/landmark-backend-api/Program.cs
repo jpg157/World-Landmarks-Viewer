@@ -1,4 +1,5 @@
 using landmark_backend_api.Endpoints.LandmarksView;
+using landmark_backend_api.Services.LandmarkService;
 
 // asp .net core app config - using minimal api
 // launches a host responsible for:
@@ -7,6 +8,7 @@ using landmark_backend_api.Endpoints.LandmarksView;
 // - setting up the http pipeline, and routes for processing requests and responses
 
 // web application builder - provides apis for configuring the application host and http pipeline
+
 var builder = WebApplication.CreateBuilder(args);
 
 // register required shared services in services DI container
@@ -21,7 +23,7 @@ var app = builder.Build();
 // ========
 // Landmarks
 // ========
-LandmarkEndpoints.Map(app);
+app.RegisterLandmarkEndpoints();
 
 // web app instance run method
 // starts http server and initiates http request processing pipeline

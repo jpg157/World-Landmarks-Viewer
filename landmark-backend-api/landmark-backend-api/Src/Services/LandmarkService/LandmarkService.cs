@@ -1,8 +1,9 @@
 using System.Text.Json;
 using landmark_backend_api.Models;
-using landmark_backend_api.Models.Pagination;
+using landmark_backend_api.Models.Dtos.Pagination;
 
-class LandmarkService : ILandmarkService
+namespace landmark_backend_api.Services.LandmarkService;
+public class LandmarkService : ILandmarkService
 {
   
   // TODO: update
@@ -40,11 +41,6 @@ class LandmarkService : ILandmarkService
     }
   }
 
-  public void AddLandmark(Landmark landmark)
-  {
-    _landmarksInMemoryCollection.Data.Add(landmark);
-  }
-
   public PaginatedItemsDTO<Landmark> GetAllLandmarks()
   {
     return _landmarksInMemoryCollection;
@@ -53,5 +49,10 @@ class LandmarkService : ILandmarkService
   public Landmark? GetLandmarkById(string id)
   {
     return _landmarksInMemoryCollection.Data.SingleOrDefault(landmark => landmark.Id == id);
+  }
+
+    public void AddLandmark(Landmark landmark)
+  {
+    _landmarksInMemoryCollection.Data.Add(landmark);
   }
 }

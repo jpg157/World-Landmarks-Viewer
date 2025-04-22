@@ -23,20 +23,22 @@ export default async function LandmarkCardsGrid() {
   }
 
   const landmarksList: SavedLandmark[] = landmarksResponse.data;
+  //const paginationMetadata = landmarksResponse.metadata; //TODO
 
   //TODO: query functions for filtering landmarks feature
     //getLandmarksByName
     //getLandmarksByDate
     //getLandmarksByLocation
-
-  //TODO: combine Landmark images with Landmark data (using cloudinary)
   
   const gridItems = Object.entries(landmarksList).map(([key, value]) => {
 
     const landmarkId          = value._id;
     const landmarkName        = value.name;
     const landmarkDescription = value.description; 
-    const landmarkImageData: LandmarkImageProps = { imageSrc: value.imageAPIUrl };
+    const landmarkImageData: LandmarkImageProps = { 
+      imageSrc: value.imageAPIUrl,
+      imageAlt: landmarkName
+    };
 
     const landmarkCardData: LandmarkCardProps = {
       landmarkId: landmarkId,

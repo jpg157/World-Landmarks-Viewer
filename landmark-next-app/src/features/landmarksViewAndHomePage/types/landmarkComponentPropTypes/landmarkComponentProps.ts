@@ -4,6 +4,7 @@ import { MouseEventHandler } from "react";
 
 export type LandmarkImageProps = {
   imageSrc: string;
+  imageAlt: string;
 };
 
 export type LandmarkCardProps = {

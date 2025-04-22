@@ -1,4 +1,4 @@
-namespace landmark_backend_api.Models.Pagination;
+namespace landmark_backend_api.Models.Dtos.Pagination;
 
 /// <summary>
 /// Contains data - the collection of items, and metadata for pagination.
