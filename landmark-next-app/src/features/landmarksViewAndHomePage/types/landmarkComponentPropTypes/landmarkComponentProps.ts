@@ -3,7 +3,7 @@
 import { MouseEventHandler } from "react";
 
 export type LandmarkImageProps = {
-  imageSrc: string;
+  imageSrcUrl: string;
   imageAlt: string;
 };
 

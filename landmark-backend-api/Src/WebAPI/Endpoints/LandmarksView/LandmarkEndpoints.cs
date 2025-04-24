@@ -1,7 +1,6 @@
 using landmark_backend_api.Services.LandmarkService;
 
-namespace landmark_backend_api.Endpoints.LandmarksView;
-
+namespace landmark_backend_api.WebAPI.Endpoints.LandmarksView;
 public static class LandmarkEndpoints
 {
   public static void RegisterLandmarkEndpoints(this WebApplication app)

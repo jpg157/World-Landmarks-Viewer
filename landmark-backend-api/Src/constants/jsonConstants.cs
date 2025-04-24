@@ -1,3 +1,5 @@
+// To delete
+
 public static class JsonConstants {
   private static readonly string BASE_DIR_PATH = AppDomain.CurrentDomain.BaseDirectory;
   private static readonly string PATH_TO_JSON_FILE_DATA = Path.Combine("Src", "Data", "landmarkData_TEMP", "json");
