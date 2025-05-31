@@ -13,28 +13,29 @@ const LandmarkCard = (landmarkCardData: LandmarkCardProps) => {
   }
 
   return (
-      <div className='transition hover:scale-105'>
-        <div className='h-[30vh]'>
-          <LandmarkImage {...(landmarkCardData.imageProps)}></LandmarkImage>
-        </div>
-  
-        <div className='flex flex-col gap-1 items-center justify-center mt-2'>
-          <h1 className={`
-              inline-block
-              text-sm
-              md:text-lg
-              roboto
-            `}
-          >
-            {landmarkCardData.landmarkName}
-          </h1>
-          
-          <div className='flex gap-1 items-center justify-center'>
-            <Google3DViewButton landmarkId={landmarkCardData.landmarkId} />
-            <ViewDescriptionButton onClick={flipCardToShowDescription} />
-          </div>
+    // TODO: make the card expand EQUALLY in all directions when hovered
+    <div className='transition hover:scale-105'>
+      <div className='h-[30vh]'>
+        <LandmarkImage {...(landmarkCardData.imageProps)}></LandmarkImage>
+      </div>
+
+      <div className='flex flex-col gap-1 items-center justify-center mt-2'>
+        <h1 className={`
+            inline-block
+            text-sm
+            md:text-lg
+            roboto
+          `}
+        >
+          {landmarkCardData.landmarkName}
+        </h1>
+        
+        <div className='flex gap-1 items-center justify-center'>
+          <Google3DViewButton landmarkId={landmarkCardData.landmarkId} />
+          <ViewDescriptionButton onClick={flipCardToShowDescription} />
         </div>
       </div>
+    </div>
   );
 }
 

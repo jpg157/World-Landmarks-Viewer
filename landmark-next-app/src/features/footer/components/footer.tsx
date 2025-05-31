@@ -1,6 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
-import { FooterProps } from '../types/footerProps';
+import githubLogo from '@/images/socialMediaIcons/github-white.svg';
+import linkedInLogo from '@/images/socialMediaIcons/linkedin-white.svg';
+
+export type FooterProps = {
+  fixedToBottomPosition: boolean;
+}
 
 const Footer = (footerProps: FooterProps) => {
 
@@ -24,7 +29,7 @@ const Footer = (footerProps: FooterProps) => {
 
         <a href="https://github.com/jpg157" target="_blank">
           <Image
-            src="/socialMediaIcons/github-white.svg"
+            src={githubLogo}
             alt='github_link'
             height={32}
             width={32}
@@ -33,7 +38,7 @@ const Footer = (footerProps: FooterProps) => {
 
         <a href="https://www.linkedin.com/in/jason-lau1/" target="_blank">
           <Image
-            src="/socialMediaIcons/linkedin-white.svg"
+            src={linkedInLogo}
             alt='linkedin_link'
             height={32}
             width={32}

@@ -1,4 +1,4 @@
 public interface IImageService
 {
-  Task UploadImageAsync(IFormFile imageFile); // todo
+  Task<string> UploadLandmarkImageAsync(IFormFile imageFile, int landmarkId); // todo
 }

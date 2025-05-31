@@ -6,6 +6,22 @@
   --foreground: #171717;
 }
 
+@theme {
+  --color-app-green: var(--color-green-500);
+  --color-app-light-green: var(--color-green-400);
+  --color-app-purple: var(--color-fuchsia-600);
+  --color-app-cyan: var(--color-cyan-500);
+  --color-app-light-cyan: var(--color-cyan-400);
+
+  /* --color-app-primary:  */
+  --color-app-secondary: var(--color-gray-200);
+  --color-app-tertiary: #C8C8C8;
+
+  --color-app-primary-text: var(--color-black);
+}
+
+@custom-variant hover (&:hover);
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

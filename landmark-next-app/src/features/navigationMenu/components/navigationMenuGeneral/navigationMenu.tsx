@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image'
 import React from 'react'
 import { NavigationMenuProps } from '../../types/navigationMenuProps';
-
-// import landmapAppLogo from '../../../public/landmarkAppLogo.svg'
+import downArrow from '@/images/downArrow.svg';
+import landmarkAppLogo from '@/images/landmarkAppLogo.svg'
 
 const NavigationMenu = (navItems: NavigationMenuProps[]) => {
 
@@ -21,7 +21,7 @@ const NavigationMenu = (navItems: NavigationMenuProps[]) => {
 
       {navItem.isDropdown && (
         <Image
-          src="/downArrow.svg"
+          src={downArrow}
           alt='downArrow'
           height={13}
           width={13}
@@ -43,7 +43,7 @@ const NavigationMenu = (navItems: NavigationMenuProps[]) => {
         }
       >
         <Image
-          src="/landmarkAppLogo.svg"
+          src={landmarkAppLogo}
           alt='landmarkAppLogo'
           height={50}
           width={50}

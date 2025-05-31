@@ -1,8 +1,8 @@
 import Footer from '@/features/footer/components/footer';
 import MainNavigationMenu from '@/features/navigationMenu/components/mainNavigationMenu';
 import React from 'react'
-import AddNewLandmarkButton from './addNewLandmarkButton';
 import LandmarkCardsGrid from './landmarkCardsGrid';
+import CreateLandmarkComponentGroup from './createLandmarksComponents/createLandmarkComponentGroup';
 
 export default function ViewLandmarksPageContainer() {
 
@@ -36,9 +36,7 @@ export default function ViewLandmarksPageContainer() {
               Want to add a landmark to this collection?
           </h1>
         </div>
-        <div className="flex justify-center">
-          <AddNewLandmarkButton/>
-        </div>
+        <CreateLandmarkComponentGroup/>
       </div>
 
       <Footer fixedToBottomPosition={false}></Footer>

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Threading.Tasks;
 using landmark_backend_api.Models;
 using landmark_backend_api.Models.Dtos.Pagination;
 
@@ -6,17 +7,14 @@ namespace landmark_backend_api.Services.LandmarkService;
 public class LandmarkService : ILandmarkService
 {
   private readonly ILandmarkDataAccessor _landmarkDataAccessor;
-  private readonly IImageService _imageService;
 
   public LandmarkService(
-    ILandmarkDataAccessor landmarkDataAccessor,
-    IImageService imageService)
+    ILandmarkDataAccessor landmarkDataAccessor)
   {
     _landmarkDataAccessor = landmarkDataAccessor;
-    _imageService = imageService;
   }
 
-  public PaginatedItemsDTO<Landmark> GetAllLandmarks() //TODO: Add PaginationReqParams class into params
+  public async Task<PaginatedItemsDTO<Landmark>> GetAllLandmarks() //TODO: Add PaginationReqParams class into params
   {
     PaginatedItemsDTO<Landmark> paginatedLandmarksDto;
 
@@ -28,24 +26,33 @@ public class LandmarkService : ILandmarkService
     };
     paginatedLandmarksDto = new PaginatedItemsDTO<Landmark>
     {
-      Data = _landmarkDataAccessor.FindAll(),
+      Data = await _landmarkDataAccessor.FindAll(),
       Metadata = paginatedMetadataDTO
     };
 
     return paginatedLandmarksDto;
   }
 
-  public Landmark? GetLandmarkById(string id)
+  public async Task<Landmark?> GetLandmarkById(int id)
   {
-    return _landmarkDataAccessor.FindById(id);
+    return await _landmarkDataAccessor.FindById(id);
   }
 
-  public void AddLandmark(Landmark landmark)
+  public async Task<Landmark> AddLandmark(Landmark landmark)
   {
-    _landmarkDataAccessor.Create(landmark);
+    // todo: add validation
+    Landmark newLandmark = await _landmarkDataAccessor.Create(landmark);
+    return newLandmark;
+  }
 
-    //todo: add string filePath
-    //todo: add int landmark.Id
-    // _imageService.UploadImageAsync();
+  public async Task<Landmark?> UpdateLandmarkImage(string imageSrcUrl, int landmarkId)
+  {
+    return await _landmarkDataAccessor.UpdateImageSrcUrl(imageSrcUrl, landmarkId);
+  }
+
+  //TODO
+  public Task DeleteLandmarkById(int id)
+  {
+    throw new NotImplementedException();
   }
 }

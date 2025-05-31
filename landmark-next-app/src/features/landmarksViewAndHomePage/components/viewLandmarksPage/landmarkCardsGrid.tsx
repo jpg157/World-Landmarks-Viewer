@@ -16,27 +16,28 @@ export default async function LandmarkCardsGrid() {
   catch (error)
   {
     return (
-      <div>
-        Error loading landmarks. Please try again later.
+      <div className='flex justify-center items-center'>
+        <p>Error loading landmarks. Please try again later.</p>
       </div>
     )
   }
 
   const landmarksList: SavedLandmark[] = landmarksResponse.data;
-  //const paginationMetadata = landmarksResponse.metadata; //TODO
+  //const paginationMetadata = landmarksResponse.metadata; //TODO - add pagination
 
   //TODO: query functions for filtering landmarks feature
     //getLandmarksByName
-    //getLandmarksByDate
+    //getLandmarksByCreationDate
     //getLandmarksByLocation
   
   const gridItems = Object.entries(landmarksList).map(([key, value]) => {
 
-    const landmarkId          = value._id;
+    const landmarkId          = value.id;
     const landmarkName        = value.name;
     const landmarkDescription = value.description; 
+
     const landmarkImageData: LandmarkImageProps = { 
-      imageSrc: value.imageAPIUrl,
+      imageSrcUrl: value.imageApiUrl,
       imageAlt: landmarkName
     };
 
@@ -48,7 +49,7 @@ export default async function LandmarkCardsGrid() {
     };
     
     return (
-      <LandmarkCard key={landmarkId} {...landmarkCardData}></LandmarkCard>
+      <LandmarkCard key={key} {...landmarkCardData}></LandmarkCard>
     );
   });
 

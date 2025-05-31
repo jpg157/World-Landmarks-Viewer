@@ -4,18 +4,18 @@ export type LandmarkLocationData = {
 }
 
 export type Landmark = {
-  _id: string;
+  id?: number;
   name: string;
   landmarkCreationDate?: string;
   description: string;
-  imageAPIUrl: string;
-  landmarkLocation: LandmarkLocationData;
+  imageApiUrl?: string;
+  landmarkLocation?: LandmarkLocationData;//TODO
 };
 
 export type SavedLandmark = Required<Landmark>;
 
 export type LandmarksResponse = {
-  data: SavedLandmark[];
+  data: SavedLandmark[]; // should only have the landmarks in the specified pagination range, not all of them
   // Pagination
   metadata: {
     currentPageNum: number;

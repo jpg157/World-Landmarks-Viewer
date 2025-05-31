@@ -4,11 +4,29 @@ import Footer from '@/features/footer/components/footer'
 import HomeNavigationMenu from '@/features/navigationMenu/components/homeNavigationMenu'
 import LandmarkImageCarousel from './landmarkImageCarousel/landmarkImageCarousel'
 import { LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps'
+import { getAllLandmarks } from '../../api/landmarksView/getLandmarks'
+import { LandmarksResponse, SavedLandmark } from '../../types/landmarks'
 
-function HomePageContainer() {
+async function HomePageContainer() {
 
-  // TODO: get the list of image files from the server using FETCH
-  const landmarkImgPropList: LandmarkImageProps[] = []
+  let landmarksResponse: LandmarksResponse;
+  let landmarkImgPropList: LandmarkImageProps[]
+  
+  try
+  {
+    landmarksResponse = await getAllLandmarks();
+
+    const landmarksList: SavedLandmark[] = landmarksResponse.data;
+
+    // Landmark Image Carousel Images
+    landmarkImgPropList = landmarksList.map((landmark) => {
+      return { imageSrcUrl: landmark.imageApiUrl, imageAlt: landmark.name };
+    });
+  }
+  catch (error)
+  {
+    landmarkImgPropList = [];
+  }
 
   return (
     <>
@@ -16,8 +34,8 @@ function HomePageContainer() {
       <HomeNavigationMenu></HomeNavigationMenu>
 
       <main>
-        {/* Landmark Image Carousel */}
-        {/* TODO <LandmarkImageCarousel {...landmarkImgPropList}></LandmarkImageCarousel> */}
+        
+        <LandmarkImageCarousel landmarkImagePropsList={landmarkImgPropList}></LandmarkImageCarousel>
 
         {/* Explore landmarks button */}
         <div className={`

@@ -2,6 +2,7 @@ import { viewLandmarksPageRoute } from '@/shared/constants/PageRoutes'
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
+import rightArrow from '@/images/rightArrow.svg'
 
 function ExploreLandmarksButton() {
   return (
@@ -19,7 +20,7 @@ function ExploreLandmarksButton() {
         Explore Landmarks
       </p>
       <Image
-      src="/rightArrow.svg"
+      src={rightArrow}
       alt="rightArrow"
       height={40}
       width={40}

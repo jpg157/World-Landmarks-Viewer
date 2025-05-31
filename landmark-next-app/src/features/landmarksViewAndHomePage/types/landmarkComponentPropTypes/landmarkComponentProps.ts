@@ -8,14 +8,14 @@ export type LandmarkImageProps = {
 };
 
 export type LandmarkCardProps = {
-  landmarkId: string;
+  landmarkId: number;
   landmarkName: string;
   landmarkDescription: string;
   imageProps: LandmarkImageProps;
 };
 
 export type Landmark3DViewButtonProps = {
-  landmarkId: string;
+  landmarkId: number;
 }
 
 export type LandmarkViewDescriptionButtonProps = {

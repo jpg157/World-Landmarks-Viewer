@@ -1,0 +1,92 @@
+{
+  "Landmarks": [
+    {
+      "Id": 1,
+      "Name": "Angkor Wat Temple",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:28:25",
+      "Description": "Angkor Wat is a massive temple complex in Cambodia and one of the largest religious monuments in the world. Originally constructed as a Hindu temple for the Khmer Empire, it gradually transformed into a Buddhist temple.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327307/yu9pozo9mpzi8kgeini3.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 2,
+      "Name": "Colosseum",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:29:29",
+      "Description": "The Colosseum in Rome, Italy, is an ancient amphitheater known for gladiatorial combat and Roman public spectacles. It is a symbol of the power and architectural skill of the Roman Empire.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327370/wapvwnl3f0bjqxk64z8l.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 3,
+      "Name": "Eiffel Tower",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:29:54",
+      "Description": "The Eiffel Tower is a wrought-iron lattice tower located on the Champ de Mars in Paris, France. It is one of the most recognizable structures in the world and a global symbol of France.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327395/whvzpt6xr4uyglvqdkma.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 4,
+      "Name": "Great Wall Of China",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:30:22",
+      "Description": "The Great Wall of China is a series of fortifications built to protect Chinese states against invasions. Stretching thousands of miles, it is one of the most iconic structures in human history.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327423/dnbgj3hucrkfd0w2awm6.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 5,
+      "Name": "Machu Picchu",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:35:36",
+      "Description": "Machu Picchu is a 15th-century Inca citadel located high in the Andes Mountains of Peru. It is famous for its sophisticated dry-stone construction and panoramic views.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327739/p0atgrbdhzhg1bbcmuuf.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 6,
+      "Name": "Santorini",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:36:26",
+      "Description": "Santorini is a picturesque island in the Aegean Sea, part of Greece, known for its whitewashed buildings, stunning sunsets, and volcanic history. It is a popular destination for romantic getaways.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327788/gtc36vurlwmv1uugxj8u.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 7,
+      "Name": "Taj Mahal",
+      "LandmarkCreationDate": "Monday, May 26, 2025 23:37:00",
+      "Description": "The Taj Mahal, located in Agra, India, is a white marble mausoleum built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal. It is a UNESCO World Heritage site and an architectural marvel.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748327821/m61dxwogos167flltk5c.jpg",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    },
+    {
+      "Id": 8,
+      "Name": "Mount Everest",
+      "LandmarkCreationDate": "Tuesday, May 27, 2025 00:27:29",
+      "Description": "Mount Everest is the highest mountain in the world, standing at 8,848 meters (29,029 feet) above sea level. Located in the Himalayas on the border of Nepal and China, it is a legendary destination for climbers.",
+      "ImageApiUrl": "https://res.cloudinary.com/dfgmavd8m/image/upload/v1748330851/ssgzqsw7axhkivw3hs3u.png",
+      "LandmarkLocation": {
+        "XCoord": 0,
+        "YCoord": 0
+      }
+    }
+  ]
+}

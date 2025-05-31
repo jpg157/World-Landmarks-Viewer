@@ -1,3 +1,3 @@
-export type ApiErrorReponse = {
-  message?: string;
-};
+// export type ApiErrorResponse = {
+//   errorMessage?: string;
+// };
