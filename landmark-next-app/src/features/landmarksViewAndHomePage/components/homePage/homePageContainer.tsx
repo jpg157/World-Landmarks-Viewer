@@ -1,37 +1,48 @@
 import React from 'react'
 import ExploreLandmarksButton from './exploreLandmarksButton'
 import Footer from '@/features/footer/components/footer'
-import HomeNavigationMenu from '@/features/navigationMenu/components/homeNavigationMenu'
 import LandmarkImageCarousel from './landmarkImageCarousel/landmarkImageCarousel'
 import { LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps'
 import { getAllLandmarks } from '../../api/landmarksView/getLandmarks'
 import { LandmarksResponse, SavedLandmark } from '../../types/landmarks'
+import NavigationMenu from '@/features/navigationMenu/components/navigationMenu'
+import { homePageNavItemProps } from '@/features/navigationMenu/constants/NavMenuLinks'
+import { getUser } from '@/features/auth/lib/getUser'
+import { AUTH0_RETURN_URLS } from '@/shared/constants/auth0ReturnUrls'
 
 async function HomePageContainer() {
 
-  let landmarksResponse: LandmarksResponse;
   let landmarkImgPropList: LandmarkImageProps[]
+  let userSessionExists = false;
   
-  try
-  {
-    landmarksResponse = await getAllLandmarks();
+  const userResponse = await getUser();
+  userSessionExists = userResponse.ok;
+
+  const getAllLandmarksRes = await getAllLandmarks();
+
+  if (!getAllLandmarksRes.ok) {
+    landmarkImgPropList = [];
+  }
+  else {
+    const landmarksResponse: LandmarksResponse = getAllLandmarksRes.data;
 
     const landmarksList: SavedLandmark[] = landmarksResponse.data;
+    //const paginationMetadata = landmarksResponse.metadata; //TODO - add pagination
 
     // Landmark Image Carousel Images
     landmarkImgPropList = landmarksList.map((landmark) => {
       return { imageSrcUrl: landmark.imageApiUrl, imageAlt: landmark.name };
     });
   }
-  catch (error)
-  {
-    landmarkImgPropList = [];
-  }
 
   return (
     <>
-      {/* Home Navigation menu */}
-      <HomeNavigationMenu></HomeNavigationMenu>
+      {/* Home navigation menu */}
+      <NavigationMenu
+        userSessionExists={userSessionExists}
+        returnUrl={AUTH0_RETURN_URLS.ROOT}
+        navItems={homePageNavItemProps}
+      />
 
       <main>
         

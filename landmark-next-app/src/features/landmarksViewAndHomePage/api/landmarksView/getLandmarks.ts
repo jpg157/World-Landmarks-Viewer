@@ -1,20 +1,28 @@
 'use server'
 
+import { ServerActionResponse } from "@/shared/types";
 import { LandmarksResponse } from "../../types/landmarks";
 
-export async function getAllLandmarks(): Promise<LandmarksResponse> 
+export async function getAllLandmarks(): Promise<ServerActionResponse<LandmarksResponse>> 
 {
-  const response: Response = await fetch(
-    `${process.env.SERVER_API_URL}/api/landmarks-view/landmarks`, 
-    {method: "GET",}
-  );
-  
-  if (!response.ok) {
-    const errorMessage: string = response.statusText;
-    throw new Error(errorMessage || "Error: Failed to fetch landmark data");
+  try {
+    const response: Response = await fetch(
+      `${process.env.SERVER_API_URL}/api/landmarks-view/landmarks`, 
+      {method: "GET",}
+    );
+    
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const landmarkData: LandmarksResponse = await response.json();
+
+    return { ok: true, data: landmarkData };
   }
-
-  const landmarkData: LandmarksResponse = await response.json();
-
-  return landmarkData;
+  catch (error) {
+    return {
+      ok: false, 
+      errorMessage: (error instanceof Error) ? error.message : "Failed to fetch landmark data"
+    };
+  }
 }

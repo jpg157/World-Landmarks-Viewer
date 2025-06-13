@@ -1,5 +1,5 @@
 import { Landmark3DViewButtonProps } from '@/features/landmarksViewAndHomePage/types/landmarkComponentPropTypes/landmarkComponentProps'
-import { streetViewPageRoute, viewLandmarksPageRoute } from '@/shared/constants/PageRoutes'
+import { viewLandmarksPageRoute, streetViewPageRoute } from '@/shared/constants/pageRoutes'
 import Link from 'next/link'
 import React from 'react'
 

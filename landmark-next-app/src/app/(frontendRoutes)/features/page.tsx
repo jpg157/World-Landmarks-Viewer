@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Features = () => {
+const FeaturesPage = () => {
 
   return (
     <div>Features</div>
   )
 }
 
-export default Features;
+export default FeaturesPage;

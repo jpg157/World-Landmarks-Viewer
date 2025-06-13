@@ -1,4 +1,4 @@
-import { viewLandmarksPageRoute } from '@/shared/constants/PageRoutes'
+import { viewLandmarksPageRoute } from '@/shared/constants/pageRoutes'
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'

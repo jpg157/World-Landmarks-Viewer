@@ -1,11 +1,16 @@
 'use server'
 
+import { auth0 } from "@/shared/lib/auth0";
 import { Landmark, SavedLandmark } from "../../types/landmarks";
+import { ServerActionResponse } from "@/shared/types";
 
 // type with all required fields except imageApiUrl omitted (created in seperate post request)
-type LandmarkExcludeImageUrl = Omit<SavedLandmark, "imageApiUrl">
+type LandmarkExcludeImageUrl = Omit<SavedLandmark, "imageApiUrl">;
 
-export async function createLandmark(data: Landmark): Promise<LandmarkExcludeImageUrl> {
+export async function createLandmark(data: Landmark): Promise<ServerActionResponse<LandmarkExcludeImageUrl>> {
+
+  try {
+    const { token: accessToken } = await auth0.getAccessToken();
 
     // Make post request to server passing Landmark type object into body
     const response: Response = await fetch(
@@ -14,6 +19,7 @@ export async function createLandmark(data: Landmark): Promise<LandmarkExcludeIma
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           ...data, 
@@ -28,11 +34,24 @@ export async function createLandmark(data: Landmark): Promise<LandmarkExcludeIma
     // Check response status
     if (!response.ok)
     {
-      const errorResponseMessage = await response.json();
-      throw new Error(errorResponseMessage);
+      // If bad request status code (custom error response)
+      if (response.status === 400) {
+        const errorResponseMessage = await response.json();
+        throw new Error(errorResponseMessage);
+      }
+      else {
+        throw new Error (response.statusText);
+      }
     }
 
     // Return new landmark from api response
     const newLandmark: LandmarkExcludeImageUrl = await response.json();
-    return newLandmark;
+    return { ok: true, data: newLandmark };
+  }
+  catch (error) {
+    return {
+      ok: false, 
+      errorMessage: (error instanceof Error) ? error.message : "An error occured while attempting to create landmark"
+    };
+  }
 }

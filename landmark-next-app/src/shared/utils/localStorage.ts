@@ -1,4 +1,5 @@
 export const localStorage = {
+
   getValue: (key: string) => {
     const item = window.localStorage.getItem(key);
 
@@ -17,9 +18,11 @@ export const localStorage = {
       return null;
     }
   },
+
   setValue: (key: string, value: any) => {
     window.localStorage.setItem(key, JSON.stringify(value));
   },
+  
   deleteEntry: (key: string) => {
     window.localStorage.removeItem(key);
   }

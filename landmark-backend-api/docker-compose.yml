@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:17
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: landmark_app
+      POSTGRES_PASSWORD: postgres_GGXoVp61h8x1 #TODO: move to secret file
+      # POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password_secret
+    # secrets:
+    #   - postgres_password_secret
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+
+# secrets:
+#   postgres_password_secret:
+#     file: ./secrets/postgress_password.txt

@@ -1,10 +1,10 @@
 import React from 'react'
 
-const GoogleStreetView = () => {
+const GoogleStreetViewPage = () => {
   return (
     // <GoogleStreetViewContainer/>
     <>Google street view container</>
   )
 }
 
-export default GoogleStreetView;
+export default GoogleStreetViewPage;

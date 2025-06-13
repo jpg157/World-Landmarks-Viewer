@@ -65,7 +65,7 @@ public static class LandmarksHandler
   // IFormFile parameter name needs to match the form file name in formdata from request
   internal static async Task<Results<Created<string>, BadRequest<string>, InternalServerError<string>>> CreateLandmarkImage(
     int id,
-    [FromForm] IFormFile? imageFile,
+    IFormFile? imageFile,
     IImageService imageService,
     ILandmarkService landmarkService
   )

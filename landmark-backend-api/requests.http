@@ -1,18 +1,26 @@
 // can sent req to running http server via this file
 
-GET  http://localhost:5000/api/landmarks-view/landmarks
+# GET  http://localhost:5000/api/landmarks-view/landmarks
 
-POST http://localhost:5000/api/landmarks-view/landmarks
+# POST http://localhost:5000/api/landmarks-view/landmarks
+# Content-Type: application/json
+
+# {
+#   "id": 20,
+#       "name": "TEST3",
+#       "landmarkCreationDate": "2000-01-01",
+#       "description": "test3",
+#       "imageApiUrl": "test3.jpg",
+#       "landmarkLocation": {
+#         "xCoord": 0.0,
+#         "yCoord": 0.0
+#       }
+# }
+
+POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "id": 20,
-      "name": "TEST3",
-      "landmarkCreationDate": "2000-01-01",
-      "description": "test3",
-      "imageApiUrl": "test3.jpg",
-      "landmarkLocation": {
-        "xCoord": 0.0,
-        "yCoord": 0.0
-      }
+  "email": "test1@test.ca",
+  "password": "test1!qQ"
 }

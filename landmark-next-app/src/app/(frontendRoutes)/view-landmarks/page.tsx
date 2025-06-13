@@ -1,9 +1,9 @@
-import ViewLandmarksPageContainer from "@/features/landmarksViewAndHomePage/components/viewLandmarksPage/viewLandmarksPageContainer";
+import ViewLandmarksPageContainer from "@/features/landmarksViewAndHomePage/components/viewLandmarksPage/viewLandmarks";
 
-const ViewLandmarks = () => {
+const ViewLandmarksPage = () => {
   return (
     <ViewLandmarksPageContainer></ViewLandmarksPageContainer>
   )
 }
 
-export default ViewLandmarks;
+export default ViewLandmarksPage;

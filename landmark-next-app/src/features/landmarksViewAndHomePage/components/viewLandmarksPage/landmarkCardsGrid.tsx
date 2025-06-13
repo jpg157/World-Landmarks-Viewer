@@ -5,22 +5,19 @@ import { getAllLandmarks } from '../../api/landmarksView/getLandmarks';
 import LandmarkCard from './landmarkCard/landmarkCard';
 
 export default async function LandmarkCardsGrid() {
-
-  let landmarksResponse: LandmarksResponse;
   
   // try to fetch landmark data
-  try
-  {
-    landmarksResponse = await getAllLandmarks();
-  }
-  catch (error)
-  {
+  const getAllLandmarksRes = await getAllLandmarks();
+  
+  if (!getAllLandmarksRes.ok) {
     return (
       <div className='flex justify-center items-center'>
         <p>Error loading landmarks. Please try again later.</p>
       </div>
     )
   }
+
+  const landmarksResponse = getAllLandmarksRes.data;
 
   const landmarksList: SavedLandmark[] = landmarksResponse.data;
   //const paginationMetadata = landmarksResponse.metadata; //TODO - add pagination

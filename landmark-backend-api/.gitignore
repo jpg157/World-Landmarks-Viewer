@@ -4,6 +4,9 @@
 .env
 .env.*
 
+# Secrets (docker)
+secrets/
+
 # ====== Visual Studio Related ======
 
 ## Ignore Visual Studio temporary files, build results, and

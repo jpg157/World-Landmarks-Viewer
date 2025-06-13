@@ -15,6 +15,7 @@
 
   /* --color-app-primary:  */
   --color-app-secondary: var(--color-gray-200);
+  --color-app-test: #e3e0d6;
   --color-app-tertiary: #C8C8C8;
 
   --color-app-primary-text: var(--color-black);
