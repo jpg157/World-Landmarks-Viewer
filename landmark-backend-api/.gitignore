@@ -4,6 +4,9 @@
 .env
 .env.*
 
+# App settings development files
+appsettings.Development.json
+
 # Secrets (docker)
 secrets/
 
