@@ -2,7 +2,7 @@
 
 import { auth0 } from "@/shared/lib/auth0";
 import { Landmark, SavedLandmark } from "../../types/landmarks";
-import { ServerActionResponse } from "@/shared/types";
+import { ServerActionResponse, ValidationErrors } from "@/shared/types";
 
 // type with all required fields except imageApiUrl omitted (created in seperate post request)
 type LandmarkExcludeImageUrl = Omit<SavedLandmark, "imageApiUrl">;
@@ -22,10 +22,8 @@ export async function createLandmark(data: Landmark): Promise<ServerActionRespon
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          ...data, 
-          id: null,
-          landmarkCreationDate: null,
-          imageApiUrl: null,
+          name: data.name,
+          description: data.description,
           landmarkLocation: {xCoord: 0.0, yCoord: 0.0} // TODO
         }), // user does not create landmark id, creation date, and imageApiUrl attributes
       },
@@ -36,8 +34,9 @@ export async function createLandmark(data: Landmark): Promise<ServerActionRespon
     {
       // If bad request status code (custom error response)
       if (response.status === 400) {
-        const errorResponseMessage = await response.json();
-        throw new Error(errorResponseMessage);
+        const errorData = await response.json();
+        // const validationResponse: ValidationErrors = errorData. 
+        throw new Error("Bad request");//errorResponseMessage);
       }
       else {
         throw new Error (response.statusText);

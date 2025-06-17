@@ -1,4 +1,4 @@
-namespace landmark_backend_api.Models.Dtos.Pagination;
+namespace landmark_backend_api.Dtos.Response;
 
 /// <summary>
 /// Pagination response metadata.

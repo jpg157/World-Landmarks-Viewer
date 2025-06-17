@@ -43,6 +43,8 @@ export async function uploadLandmarkImageFile({
     if (!response.ok)
     {
       const errorResponseMessage = await response.json();
+      console.log(JSON.stringify(errorResponseMessage));
+      //TODO - parse
       throw new Error(errorResponseMessage);
     }
 

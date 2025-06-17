@@ -13,6 +13,8 @@ using System.Security.Claims;
 using landmark_backend_api.Middleware.Auth.SetupUtils;
 using Microsoft.AspNetCore.Authorization;
 using landmark_backend_api.Middleware.Auth;
+using landmark_backend_api.Validators;
+using FluentValidation;
 
 // asp .net core app config - using minimal api
 // launches a host responsible for:
@@ -24,6 +26,8 @@ EnvConfig.LoadEnv();
 
 // web application builder - provides apis for configuring the application host and http pipeline
 var builder = WebApplication.CreateBuilder(args);
+
+// ====== Configure and Add Database Context Instance ======
 
 string? dbConnectionString = builder.Configuration.GetConnectionString("Default")?
                                                   .Replace("${POSTGRESS_PASSWORD}", builder.Configuration["POSTGRESS_PASSWORD"]);
@@ -81,15 +85,24 @@ builder.Services.AddAntiforgery(options =>
   options.HeaderName = AntiforgeryToken.XSRF_TOKEN_NAME;
 });
 
+// ====== Validation Services DI ======
+builder.Services.AddValidatorsFromAssemblyContaining<LandmarkReqDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LandmarkImageFileValidator>();
+
+// Add scoped so the serviceProvider service can resolve / produce 
+// different validator implementations based on the dto type
+builder.Services.AddScoped<IReqDtoValidator, ReqDtoValidator>();
+
 // ====== Resource Services DI ======
 
 // register required shared services in services DI container:
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<ILandmarkService, LandmarkService>();
 builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddSingleton<ILandmarkDataAccessor, LandmarkRepository>(); //TODO: change this to scoped service once db implemented
+builder.Services.AddScoped<ILandmarkDataAccessor, LandmarkRepository>(); //TODO: change this to scoped service once db implemented
 builder.Services.AddScoped<IImageDataAccessor, CloudinaryImageApi>();
 
-// Cloudinary
+// Cloudinary singleton instance used in CloudinaryImageApi service
 string? cloudinaryUrl = builder.Configuration["CLOUDINARY_URL"];
 var cloudinary = CloudinaryConfig.CreateCloudinary(cloudinaryUrl);
 builder.Services.AddSingleton(cloudinary);

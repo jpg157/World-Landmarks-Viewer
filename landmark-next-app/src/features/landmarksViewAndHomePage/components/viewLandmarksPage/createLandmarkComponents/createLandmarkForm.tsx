@@ -1,7 +1,6 @@
 'use client'
 
 import React, { FormEvent, useEffect, useState } from 'react'
-import Image from 'next/image'
 import { LANDMARK_STORAGE_PREFIX, landmarkDescriptionFormField, landmarkImageFileFormField, landmarkNameFormField, MAX_LANDMARK_DESCRIPTION_LENGTH } from '@/features/landmarksViewAndHomePage/constants/createLandmarkConstants'
 import ImageUploadComponent from './imageUpload'
 import { localStorage } from '@/shared/utils/localStorage'
@@ -11,9 +10,9 @@ import { z } from 'zod'
 import { Landmark } from '@/features/landmarksViewAndHomePage/types/landmarks'
 import { uploadLandmarkImageFile } from '@/features/landmarksViewAndHomePage/api/landmarksView/uploadLandmarkImageFile'
 import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup'
-import closeIcon from '@/images/close-icon.svg';
 import { setAntiforgeryTokenHeaders } from '@/shared/api/security/setAntiforgeryTokenHeaders'
 import { useRouter } from 'next/navigation';
+import { CloseIconButton } from '@/shared/components/buttons/closeIconButton'
 
 // Create landmark form validation schema
 const landmarkSchema = z.object({
@@ -250,18 +249,7 @@ const CreateLandmarkForm = ({
       relative
       `}
     >
-      <button 
-        className='w-[25px] h-[25px] absolute right-4 top-4 hover: cursor-pointer'
-        type='button'
-        onClick={onClose}
-      >
-        <Image
-          priority={true}
-          src={closeIcon}
-          alt={'closeIcon'}
-          className='w-full h-full'
-        />
-      </button>
+      <CloseIconButton onClick={onClose} className='absolute top-4 right-4'/>
       
       <h1 className={`
         inline-block 

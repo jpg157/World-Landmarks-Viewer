@@ -14,7 +14,7 @@ const CreateLandmarkModal = ({
 }: CreateLandmarkModalProps) => {
   return (
     <div 
-      className={'fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-10 bg-black/80'} 
+      className={'fixed inset-0 w-screen h-screen flex justify-center items-center z-10 bg-black/80'} 
       onClick={onClose}
     >
       {/* Prevent from closing the form when clicking on the form itself */}

@@ -13,7 +13,7 @@ export const NavLink = ({
     <Link 
       {...props}
       className={mergeTwClassnames(
-        `rounded-full px-6 py-1 text-lg roboto hover:text-fuchsia-600 hover:bg-gray-50 ${props.className}`
+        `rounded-full px-5 py-1 roboto ${props.className}`
       )}
     >
       {children}

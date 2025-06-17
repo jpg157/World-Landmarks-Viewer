@@ -1,23 +1,40 @@
 using landmark_backend_api.Models;
-using landmark_backend_api.Models.Dtos.Pagination;
 using landmark_backend_api.Services.LandmarkService;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+using landmark_backend_api.Dtos.Response;
+using landmark_backend_api.Dtos.Request;
+using landmark_backend_api.Validators;
+using AutoMapper;
 
 namespace landmark_backend_api.Handlers;
 
 public static class LandmarksHandler
 {
   // json serialization of service.getAll return type, response status set, content type header set done implicitly
-  internal static async Task<Results<Ok<PaginatedItemsDTO<Landmark>>, InternalServerError<string>>> GetAllLandmarks(HttpRequest req, ILandmarkService landmarkService)
+  internal static async Task<Results<Ok<PaginatedItemsDTO<LandmarkResDto>>, InternalServerError<string>>>
+  GetAllLandmarks(
+    HttpRequest req,
+    ILandmarkService landmarkService,
+    IMapper mapper)
   {
     try
     {
-      // todo: add pagination (stored in httpRequest QUERY field) - double check if need request or is there a better way
+      // todo: add pagination (stored in httpRequest QUERY field)
 
-      PaginatedItemsDTO<Landmark> landmarks = await landmarkService.GetAllLandmarks();
+      PaginatedItemsDTO<Landmark> paginatedLandmarks = await landmarkService.GetAllLandmarks();
 
-      return TypedResults.Ok(landmarks); // 200
+      List<LandmarkResDto> landmarksRes =
+        mapper.Map<List<Landmark>, List<LandmarkResDto>>(
+          paginatedLandmarks.Data
+        );
+
+      PaginatedItemsDTO<LandmarkResDto> paginatedLandmarksRes = new()
+      {
+        Data = landmarksRes,
+        Metadata = paginatedLandmarks.Metadata
+      };
+
+      return TypedResults.Ok(paginatedLandmarksRes); // 200
     }
     catch (Exception e)
     {
@@ -25,15 +42,26 @@ public static class LandmarksHandler
     }
   }
 
-  internal static async Task<Results<Ok<Landmark>, NotFound, InternalServerError<string>>> GetLandmarkById(int id, ILandmarkService landmarkService)
+  internal static async Task<Results<Ok<LandmarkResDto>, NotFound, InternalServerError<string>>>
+  GetLandmarkById(
+    int id,
+    ILandmarkService landmarkService,
+    IMapper mapper)
   {
     try
     {
       Landmark? landmark = await landmarkService.GetLandmarkById(id);
 
-      return landmark is null
-        ? TypedResults.NotFound() // 404
-        : TypedResults.Ok(landmark); // 200
+      if (landmark == null)
+      {
+        return TypedResults.NotFound(); // 404
+      }
+
+      LandmarkResDto landmarkRes = mapper.Map<Landmark, LandmarkResDto>(
+        landmark
+      );
+
+      return TypedResults.Ok(landmarkRes); // 200
     }
     catch (Exception e)
     {
@@ -41,20 +69,30 @@ public static class LandmarksHandler
     }
   }
 
-  internal static async Task<Results<Created<Landmark>, BadRequest<string>, InternalServerError<string>>> CreateLandmark(Landmark landmark, ILandmarkService landmarkService)
+  internal static async Task<Results<Created<LandmarkResDto>, BadRequest<IEnumerable<ValidationResponseDto>>, InternalServerError<string>>>
+  CreateLandmark(
+    LandmarkReqDto landmarkDto,
+    ILandmarkService landmarkService,
+    IReqDtoValidator validator,
+    IMapper mapper)
   {
     try
     {
-      // Todo: add validation for the Landmark object (in landmark service) - return BadRequest on validation error
-      // - not a valid landmark name (landmark doesn't exist)
+      // Validate dto
+      IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(landmarkDto);
 
-      Landmark newLandmark = await landmarkService.AddLandmark(landmark);
+      if (validationProblems.Any())
+      {
+        return TypedResults.BadRequest(validationProblems);
+      }
 
-      // Console.WriteLine(
-      //   $"id: {landmark.Id}\nname: {landmark.Name}\ncreation date: {landmark?.LandmarkCreationDate}\ndescription: {landmark?.Description}\nimg api url: {landmark?.ImageApiUrl}\nxcoord: {landmark?.LandmarkLocation?.XCoord}\ny coord: {landmark?.LandmarkLocation?.YCoord}"
-      // );
+      Landmark createdLandmark = await landmarkService.CreateLandmark(landmarkDto);
 
-      return TypedResults.Created($"/api/landmarks-view/landmarks/{newLandmark.Id}", newLandmark); // 201 created
+      LandmarkResDto landmarkRes = mapper.Map<Landmark, LandmarkResDto>(
+        createdLandmark
+      );
+
+      return TypedResults.Created($"/api/landmarks-view/landmarks/{landmarkRes.Id}", landmarkRes); // 201 created
     }
     catch (Exception e)
     {
@@ -63,22 +101,25 @@ public static class LandmarksHandler
   }
 
   // IFormFile parameter name needs to match the form file name in formdata from request
-  internal static async Task<Results<Created<string>, BadRequest<string>, InternalServerError<string>>> CreateLandmarkImage(
+  internal static async Task<Results<Created<string>, BadRequest<IEnumerable<ValidationResponseDto>>, NotFound<string>, InternalServerError<string>>>
+  CreateLandmarkImage(
     int id,
     IFormFile? imageFile,
     IImageService imageService,
+    IReqDtoValidator validator,
     ILandmarkService landmarkService
   )
   {
-    if (imageFile == null)
-    {
-      return TypedResults.BadRequest("Missing Landmark image file");
-    }
+    // Validate dto
+    IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(imageFile);
 
+    if (validationProblems.Any())
+    {
+      return TypedResults.BadRequest(validationProblems);
+    }
     try
     {
-      string imageSrcUrl = await imageService.UploadLandmarkImageAsync(imageFile, id);
-
+      string imageSrcUrl = await imageService.UploadLandmarkImageAsync(imageFile!, id);
       Landmark? updatedLandmark = await landmarkService.UpdateLandmarkImage(imageSrcUrl, id);
 
       if (updatedLandmark == null)
@@ -91,23 +132,29 @@ public static class LandmarksHandler
     }
     catch (KeyNotFoundException error)
     {
-      return TypedResults.BadRequest(error.Message);
+      return TypedResults.NotFound(error.Message);
     }
     //TODO: catch cloudinary image exception
     // image validator exception (when the image doesn't match the landmark name)
     catch (Exception e)
     {
-      Console.WriteLine(e.Message);
       return TypedResults.InternalServerError(e.Message);
     }
   }
 
-  internal static async Task<Results<NoContent, BadRequest, InternalServerError<string>>> DeleteLandmark(int id, ILandmarkService landmarkService)
+  internal static async Task<Results<NoContent, NotFound<string>, InternalServerError<string>>>
+  DeleteLandmark(
+    int id,
+    ILandmarkService landmarkService)
   {
     try
-    {
+    {    
       await landmarkService.DeleteLandmarkById(id);
       return TypedResults.NoContent(); // 204 success with no content
+    }
+    catch (KeyNotFoundException e)
+    {
+      return TypedResults.NotFound(e.Message);
     }
     catch (Exception e)
     {

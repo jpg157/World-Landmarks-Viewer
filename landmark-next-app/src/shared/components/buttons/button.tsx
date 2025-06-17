@@ -15,7 +15,7 @@ export const Button = ({
     <button 
       {...props}
       className={mergeTwClassnames(
-        `hover:cursor-pointer rounded-full px-6 py-1 text-md roboto text-center ${className}`
+        `hover:cursor-pointer px-6 py-1 roboto text-center ${className}`
       )}
     >
       {children}

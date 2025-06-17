@@ -24,7 +24,11 @@ const NavigationMenu = ({
   // create list of html elements from nav menu
   const NavButtonList = Object.values(navItems).map((navItem: NavigationMenuItem, index: number) => (
 
-    <NavLink key={index} href={navItem.navLinkHref}>
+    <NavLink 
+      key={index} 
+      href={navItem.navLinkHref} 
+      className='text-lg hover:text-fuchsia-600 hover:bg-gray-50'
+    >
       
       {navItem.navItemLabel}
 

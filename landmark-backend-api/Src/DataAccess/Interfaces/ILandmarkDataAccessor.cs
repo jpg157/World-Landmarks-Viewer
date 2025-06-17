@@ -9,4 +9,5 @@ public interface ILandmarkDataAccessor
   Task<Landmark> Create(Landmark landmark);
 
   Task<Landmark?> UpdateImageSrcUrl(string imageSrcUrl, int landarkId);
+  Task DeleteById(int id);
 }

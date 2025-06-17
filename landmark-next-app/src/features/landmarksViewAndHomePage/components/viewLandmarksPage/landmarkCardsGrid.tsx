@@ -1,13 +1,16 @@
 import React from 'react'
 import { LandmarkCardProps, LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps';
-import { LandmarksResponse, SavedLandmark } from '../../types/landmarks';
+import { SavedLandmark } from '../../types/landmarks';
 import { getAllLandmarks } from '../../api/landmarksView/getLandmarks';
-import LandmarkCard from './landmarkCard/landmarkCard';
+import LandmarkCard from './/landmarkCard';
+import { getUser } from '@/features/auth/lib/getUser';
 
 export default async function LandmarkCardsGrid() {
   
-  // try to fetch landmark data
+  let currentUser = null;
+
   const getAllLandmarksRes = await getAllLandmarks();
+  const getUserRes = await getUser();
   
   if (!getAllLandmarksRes.ok) {
     return (
@@ -15,6 +18,11 @@ export default async function LandmarkCardsGrid() {
         <p>Error loading landmarks. Please try again later.</p>
       </div>
     )
+  }
+
+  // user session exists
+  if (getUserRes.ok) {
+    currentUser = getUserRes.data;
   }
 
   const landmarksResponse = getAllLandmarksRes.data;
@@ -42,7 +50,8 @@ export default async function LandmarkCardsGrid() {
       landmarkId: landmarkId,
       landmarkName: landmarkName,
       landmarkDescription: landmarkDescription,
-      imageProps: landmarkImageData
+      imageProps: landmarkImageData,
+      currentUser: currentUser
     };
     
     return (

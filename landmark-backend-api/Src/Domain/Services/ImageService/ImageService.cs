@@ -16,8 +16,8 @@ Security steps that reduce the likelihood of a successful attack are:
 
 public class ImageService : IImageService
 {
-  private ILandmarkDataAccessor _landmarkDataAccessor;
-  private IImageDataAccessor _imageDataAccessor;
+  private readonly ILandmarkDataAccessor _landmarkDataAccessor;
+  private readonly IImageDataAccessor _imageDataAccessor;
 
   public ImageService(
     ILandmarkDataAccessor landmarkDataAccessor,
@@ -26,6 +26,12 @@ public class ImageService : IImageService
     _landmarkDataAccessor = landmarkDataAccessor;
     _imageDataAccessor    = imageDataAccessor;
   }
+
+  public async Task DeleteLandmarkImageAsync(string imageSrcUrl)
+  {
+    await _imageDataAccessor.DeleteAsync(imageSrcUrl);
+  }
+
   public async Task<string> UploadLandmarkImageAsync(IFormFile imageFile, int landmarkId)
   {
     //TODO: add image file validation here

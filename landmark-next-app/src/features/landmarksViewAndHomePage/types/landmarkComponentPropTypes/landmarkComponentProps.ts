@@ -1,6 +1,6 @@
 // Landmark Components Props ===
 
-import { MouseEventHandler } from "react";
+import { AuthUser } from "@/features/auth/types";
 
 export type LandmarkImageProps = {
   imageSrcUrl: string;
@@ -12,15 +12,8 @@ export type LandmarkCardProps = {
   landmarkName: string;
   landmarkDescription: string;
   imageProps: LandmarkImageProps;
+  currentUser: AuthUser | undefined | null;
 };
-
-export type Landmark3DViewButtonProps = {
-  landmarkId: number;
-}
-
-export type LandmarkViewDescriptionButtonProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
-}
 
 // export type UploadImageWidgetProps = {
 //   saveImageFileFn: (imageFile: File) => Promise<void>;

@@ -8,12 +8,12 @@ import { AUTH0_RETURN_URLS } from '@/shared/constants/auth0ReturnUrls';
 
 const CreateLandmarkComponentGroup = () => {
 
-  const [formShown, setFormShown] = useState<boolean>(false);
+  const [modalShown, setModalShown] = useState<boolean>(false);
 
   return (
     <>
       <div className="flex justify-center">
-            <button onClick={() => {setFormShown(true)}}
+            <button onClick={() => {setModalShown(true)}}
               className={`
                 rounded-md
                 w-auto
@@ -27,11 +27,11 @@ const CreateLandmarkComponentGroup = () => {
               Add a New Landmark
             </button>
       </div>
-      {formShown && (
+      {modalShown && (
         <AuthGuard loginReturnUrl={AUTH0_RETURN_URLS.VIEW_LANDMARKS} requiredUserRole={UserRolesEnum.REGULAR_USER}>
           <CreateLandmarkModal 
-            isOpen={formShown} 
-            onClose={() => {setFormShown(false)}}
+            isOpen={modalShown} 
+            onClose={() => {setModalShown(false)}}
           />
         </AuthGuard>
       )}

@@ -19,13 +19,13 @@ public class HasPermissionHandler : AuthorizationHandler<HasPermissionRequiremen
     ClaimsPrincipal claimsPrincipal = context.User;
 
     // Ensure the OIDC provider issued the "permissions" claim after authentication
-      if (!claimsPrincipal.HasClaim(
-        claim => IsPermissionTypeClaimAndMatchingIssuer(claim, requirement)
-        )
+    if (!claimsPrincipal.HasClaim(
+      claim => IsPermissionTypeClaimAndMatchingIssuer(claim, requirement)
       )
-      {
-        return Task.CompletedTask;
-      }
+    )
+    {
+      return Task.CompletedTask;
+    }
 
     // Extract the permissions claim(s) from the collection of claims
     IEnumerable<Claim> permissionClaims = claimsPrincipal.FindAll(claim => IsPermissionTypeClaimAndMatchingIssuer(claim, requirement));//!.Value.Split(' ');
@@ -42,7 +42,6 @@ public class HasPermissionHandler : AuthorizationHandler<HasPermissionRequiremen
     {
       context.Succeed(requirement);
     }
-
     return Task.CompletedTask;
   }
 }

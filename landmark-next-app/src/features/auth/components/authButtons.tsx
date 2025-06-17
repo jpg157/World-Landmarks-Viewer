@@ -16,19 +16,19 @@ export const AuthButtons = ({
     <div className="flex gap-2 justify-center items-center">
       {userSessionExists ? (
         <Button 
-          className='bg-black text-white' 
+          className='bg-app-secondary hover:bg-app-tertiary text-app-primary-text text-md rounded-full' 
           onClick={() => {logout(returnUrl)}}>
           Logout
         </Button>
       ) : (
         <>
           <Button 
-            className='bg-app-secondary hover:bg-app-tertiary text-app-primary-text' 
+            className='bg-app-secondary hover:bg-app-tertiary text-app-primary-text text-md rounded-full' 
             onClick={() => {loginWithOidcProvider(returnUrl)}}>
             Login
           </Button>
           <Button 
-            className='bg-black text-white hover:text-app-tertiary' 
+            className='bg-black text-white hover:text-app-tertiary text-md rounded-full' 
             onClick={() => {signupWithOidcProvider(returnUrl)}}>
             Sign up
           </Button>

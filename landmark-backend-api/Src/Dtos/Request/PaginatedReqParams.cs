@@ -1,9 +1,9 @@
-namespace landmark_backend_api.Models.Dtos.Pagination;
+namespace landmark_backend_api.Dtos.Request;
 
 /// <summary>
 /// Params from request data. No required properties.
 /// </summary>
-public record PaginatedRequestParams
+public record PaginatedReqParams
 {
   private const int MAX_PAGE_SIZE = 100;
   public int CurrentPageNum {get; init;} = 1;

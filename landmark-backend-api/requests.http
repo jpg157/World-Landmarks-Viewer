@@ -4,7 +4,7 @@
 
 # POST http://localhost:5000/api/landmarks-view/landmarks
 # Content-Type: application/json
-
+# Authorization: Bearer 
 # {
 #   "id": 20,
 #       "name": "TEST3",
@@ -17,10 +17,10 @@
 #       }
 # }
 
-POST http://localhost:5000/api/auth/login
-Content-Type: application/json
+# POST http://localhost:5000/api/auth/login
+# Content-Type: application/json
 
-{
-  "email": "test1@test.ca",
-  "password": "test1!qQ"
-}
+# {
+#   "email": "test1@test.ca",
+#   "password": "test1!qQ"
+# }
