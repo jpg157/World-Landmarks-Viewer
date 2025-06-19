@@ -1,8 +1,8 @@
 'use client'
 
 import React, { FormEvent, useEffect, useState } from 'react'
-import { LANDMARK_STORAGE_PREFIX, landmarkDescriptionFormField, landmarkImageFileFormField, landmarkNameFormField, MAX_LANDMARK_DESCRIPTION_LENGTH } from '@/features/landmarksViewAndHomePage/constants/createLandmarkConstants'
-import ImageUploadComponent from './imageUpload'
+import { LANDMARK_STORAGE_PREFIX, landmarkDescriptionFormField, landmarkImageFileFormField, landmarkNameFormField, MAX_LANDMARK_DESCRIPTION_LENGTH, MAX_LANDMARK_FILE_SIZE_MB } from '@/features/landmarksViewAndHomePage/constants/createLandmarkConstants'
+import FileUploadComponent from './fileUpload'
 import { localStorage } from '@/shared/utils/localStorage'
 import { createLandmark } from '@/features/landmarksViewAndHomePage/api/landmarksView/createLandmark'
 import { CreateLandmarkFormData, CreateLandmarkFormErrors } from '@/features/landmarksViewAndHomePage/types/createLandmarkFormTypes'
@@ -13,6 +13,7 @@ import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup'
 import { setAntiforgeryTokenHeaders } from '@/shared/api/security/setAntiforgeryTokenHeaders'
 import { useRouter } from 'next/navigation';
 import { CloseIconButton } from '@/shared/components/buttons/closeIconButton'
+import { ALLOWED_IMAGE_FILE_TYPES } from '@/features/landmarksViewAndHomePage/constants/fileConstants'
 
 // Create landmark form validation schema
 const landmarkSchema = z.object({
@@ -304,7 +305,7 @@ const CreateLandmarkForm = ({
                   h-50 w-[30vw]
                   resize-y max-h-143 min-h-50
                   focus:outline-2 focus:outline-app-cyan
-                  ${formInputErrors.landmarkNameErrors && 'border-error'}
+                  ${formInputErrors.landmarkDescriptionErrors && 'border-error'}
                 `}
                 onInput={(event) => {
                   saveTextAreaValue(event);
@@ -324,14 +325,16 @@ const CreateLandmarkForm = ({
       </div>
       <div className='flex flex-row justify-between gap-10'>
         <p className='p-0 m-0 inline-block'>Upload Photos</p>
-        <ImageUploadComponent 
-          heightRem={10} 
-          vWidth={30} 
-          imageUrl={controlledFormData.landmarkImgUrl} 
-          fileInputValidationErrors={formInputErrors.landmarkImgFileErrors} 
-          onFileSelect={saveImageFileAndSrcPath}
-          disabled={isPending}
-        />
+        <div className='w-[30vw]'>
+          <FileUploadComponent
+            fileImageSrc={controlledFormData.landmarkImgUrl} 
+            fileInputValidationErrors={formInputErrors.landmarkImgFileErrors} 
+            onFileSelect={saveImageFileAndSrcPath}
+            disabled={isPending}
+            acceptedFileTypes={ALLOWED_IMAGE_FILE_TYPES}
+            maxFileSizeMb={MAX_LANDMARK_FILE_SIZE_MB}
+          />
+        </div>
       </div>
     
       <button 
@@ -347,8 +350,7 @@ const CreateLandmarkForm = ({
           hover: cursor-pointer
           border-1
           focus:bg-app-light-cyan
-          ${
-          isPending
+          ${isPending
             ? 'bg-app-tertiary text-white'
             : 'bg-app-cyan hover:bg-app-light-cyan text-white'
           }

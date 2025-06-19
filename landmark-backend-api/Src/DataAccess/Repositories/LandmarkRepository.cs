@@ -39,6 +39,13 @@ public class LandmarkRepository : ILandmarkDataAccessor
     return landmark;
   }
 
+  public async Task<IEnumerable<Landmark>> CreateMany(IEnumerable<Landmark> landmarks)
+  {
+    await _db.Landmarks.AddRangeAsync(landmarks);
+    await _db.SaveChangesAsync();
+    return landmarks;
+  }
+
   public async Task<Landmark?> UpdateImageSrcUrl(string imageSrcUrl, int landmarkId)
   {
     // execute batch update (where should only return one entry since we're using unique ids)

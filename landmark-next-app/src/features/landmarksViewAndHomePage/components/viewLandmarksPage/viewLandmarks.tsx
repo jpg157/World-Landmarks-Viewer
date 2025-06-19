@@ -1,16 +1,18 @@
 import Footer from '@/features/footer/components/footer';
 import React from 'react'
 import LandmarkCardsGrid from './landmarkCardsGrid';
-import CreateLandmarkComponentGroup from './createLandmarkComponents/createLandmarkComponentGroup';
 import { getUser } from '@/features/auth/lib/getUser';
 import { AUTH0_RETURN_URLS } from "@/shared/constants/auth0ReturnUrls"
 import NavigationMenu from '@/features/navigationMenu/components/navigationMenu';
 import { mainPageNavItemProps } from '@/features/navigationMenu/constants/NavMenuLinks';
+import CreateLandmarkComponentGroup from './createLandmark/createLandmarkComponentGroup';
 
 export default async function ViewLandmarksPageContainer() {
 
-  const userResponse = await getUser();
-  const userSessionExists = userResponse.ok;
+  // check if user session exists
+  const getUserRes        = await getUser();
+  const userSessionExists = getUserRes.ok;
+  const currentUser       = getUserRes.ok ? getUserRes.data : null;
 
   return (
     <>
@@ -33,7 +35,7 @@ export default async function ViewLandmarksPageContainer() {
         </h1>
       </div>
 
-      <LandmarkCardsGrid/>
+      <LandmarkCardsGrid currentUser={currentUser}/>
 
       <div className="flex flex-col my-5 gap-3">
         <div className="flex justify-center">
@@ -47,7 +49,7 @@ export default async function ViewLandmarksPageContainer() {
               Want to add a landmark to this collection?
           </h1>
         </div>
-        <CreateLandmarkComponentGroup/>
+        <CreateLandmarkComponentGroup currentUser={currentUser}/>
       </div>
 
       <Footer fixedToBottomPosition={false}></Footer>

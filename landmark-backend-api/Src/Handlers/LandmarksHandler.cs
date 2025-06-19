@@ -5,11 +5,14 @@ using landmark_backend_api.Dtos.Response;
 using landmark_backend_api.Dtos.Request;
 using landmark_backend_api.Validators;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace landmark_backend_api.Handlers;
 
 public static class LandmarksHandler
 {
+  private const int MAX_NUM_ENTRIES_BULK_CREATE = 50;
+
   // json serialization of service.getAll return type, response status set, content type header set done implicitly
   internal static async Task<Results<Ok<PaginatedItemsDTO<LandmarkResDto>>, InternalServerError<string>>>
   GetAllLandmarks(
@@ -36,9 +39,9 @@ public static class LandmarksHandler
 
       return TypedResults.Ok(paginatedLandmarksRes); // 200
     }
-    catch (Exception e)
+    catch (Exception)
     {
-      return TypedResults.InternalServerError(e.Message);
+      return TypedResults.InternalServerError("Internal Server Error");
     }
   }
 
@@ -63,15 +66,15 @@ public static class LandmarksHandler
 
       return TypedResults.Ok(landmarkRes); // 200
     }
-    catch (Exception e)
+    catch (Exception)
     {
-      return TypedResults.InternalServerError(e.Message);
+      return TypedResults.InternalServerError("Internal Server Error");
     }
   }
 
   internal static async Task<Results<Created<LandmarkResDto>, BadRequest<IEnumerable<ValidationResponseDto>>, InternalServerError<string>>>
   CreateLandmark(
-    LandmarkReqDto landmarkDto,
+    LandmarkReqDto landmarkReqDto,
     ILandmarkService landmarkService,
     IReqDtoValidator validator,
     IMapper mapper)
@@ -79,14 +82,14 @@ public static class LandmarksHandler
     try
     {
       // Validate dto
-      IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(landmarkDto);
+      IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(landmarkReqDto);
 
       if (validationProblems.Any())
       {
         return TypedResults.BadRequest(validationProblems);
       }
 
-      Landmark createdLandmark = await landmarkService.CreateLandmark(landmarkDto);
+      Landmark createdLandmark = await landmarkService.CreateLandmark(landmarkReqDto);
 
       LandmarkResDto landmarkRes = mapper.Map<Landmark, LandmarkResDto>(
         createdLandmark
@@ -94,33 +97,72 @@ public static class LandmarksHandler
 
       return TypedResults.Created($"/api/landmarks-view/landmarks/{landmarkRes.Id}", landmarkRes); // 201 created
     }
-    catch (Exception e)
+    catch (Exception)
     {
-      return TypedResults.InternalServerError(e.Message);
+      return TypedResults.InternalServerError("Internal Server Error");
+    }
+  }
+
+  internal static async Task<Results<Created, BadRequest<string>, InternalServerError<string>>>
+  BulkCreateLandmarks(
+    [FromBody] List<LandmarkReqDto> landmarkReqDtos,
+    ILandmarkService landmarkService,
+    IReqDtoValidator validator
+  )
+  {
+    try
+    {
+      if (landmarkReqDtos.Count == 0)
+      {
+        return TypedResults.BadRequest("Formatting error in json file - list of landmarks is empty");
+      }
+
+      if (landmarkReqDtos.Count > MAX_NUM_ENTRIES_BULK_CREATE)
+      {
+        return TypedResults.BadRequest($"Cannot create more than {MAX_NUM_ENTRIES_BULK_CREATE} per request");
+      }
+
+      foreach (LandmarkReqDto landmarkReqDto in landmarkReqDtos)
+      {
+        // Validate dto
+        IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(landmarkReqDto);
+        if (validationProblems.Any())
+        {
+          //todo: create more informative bad request message
+          return TypedResults.BadRequest($"Validation error in json file for landmark with name {landmarkReqDto}");
+        }
+      }
+
+      IEnumerable<Landmark> landmarkResDtos = await landmarkService.BulkCreateLandmarks(landmarkReqDtos);
+
+      return TypedResults.Created();
+    }
+    catch (Exception)
+    {
+      return TypedResults.InternalServerError("Internal Server Error");
     }
   }
 
   // IFormFile parameter name needs to match the form file name in formdata from request
   internal static async Task<Results<Created<string>, BadRequest<IEnumerable<ValidationResponseDto>>, NotFound<string>, InternalServerError<string>>>
-  CreateLandmarkImage(
+  UploadLandmarkImage(
     int id,
     IFormFile? imageFile,
-    IImageService imageService,
     IReqDtoValidator validator,
     ILandmarkService landmarkService
   )
   {
-    // Validate dto
-    IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(imageFile);
-
-    if (validationProblems.Any())
-    {
-      return TypedResults.BadRequest(validationProblems);
-    }
     try
     {
-      string imageSrcUrl = await imageService.UploadLandmarkImageAsync(imageFile!, id);
-      Landmark? updatedLandmark = await landmarkService.UpdateLandmarkImage(imageSrcUrl, id);
+      // Validate dto
+      IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(imageFile);
+
+      if (validationProblems.Any())
+      {
+        return TypedResults.BadRequest(validationProblems);
+      }
+      
+      Landmark? updatedLandmark = await landmarkService.UploadLandmarkImage(imageFile!, id);
 
       if (updatedLandmark == null)
       {
@@ -128,7 +170,7 @@ public static class LandmarksHandler
         return TypedResults.InternalServerError("Error while updating landmark image");
       }
 
-      return TypedResults.Created($"/api/landmarks-view/landmarks/{id}/image", imageSrcUrl); // 201 created
+      return TypedResults.Created($"/api/landmarks-view/landmarks/{id}/image", updatedLandmark.ImageApiUrl); // 201 created
     }
     catch (KeyNotFoundException error)
     {
@@ -136,9 +178,9 @@ public static class LandmarksHandler
     }
     //TODO: catch cloudinary image exception
     // image validator exception (when the image doesn't match the landmark name)
-    catch (Exception e)
+    catch (Exception)
     {
-      return TypedResults.InternalServerError(e.Message);
+      return TypedResults.InternalServerError("Internal Server Error");
     }
   }
 
@@ -156,9 +198,9 @@ public static class LandmarksHandler
     {
       return TypedResults.NotFound(e.Message);
     }
-    catch (Exception e)
+    catch (Exception)
     {
-      return TypedResults.InternalServerError(e.Message);
+      return TypedResults.InternalServerError("Internal Server Error");
     }
   }
 }

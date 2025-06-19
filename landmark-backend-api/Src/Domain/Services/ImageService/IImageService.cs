@@ -1,5 +1,5 @@
 public interface IImageService
 {
-  Task<string> UploadLandmarkImageAsync(IFormFile imageFile, int landmarkId);
-  Task DeleteLandmarkImageAsync(string imageSrcUrl);
+  Task<string> UploadEntityImageAsync(IFormFile imageFile, int entityId, string entityTypeName);
+  Task DeleteEntityImageAsync(string imageSrcUrl);
 }

@@ -13,7 +13,8 @@ public static class LandmarkEndpoints
     landmarksRoute.MapGet("/", LandmarksHandler.GetAllLandmarks);
     landmarksRoute.MapGet("/{id}", LandmarksHandler.GetLandmarkById);
     landmarksRoute.MapPost("/", LandmarksHandler.CreateLandmark).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
-    landmarksRoute.MapPost("/{id}/image", LandmarksHandler.CreateLandmarkImage).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
+    landmarksRoute.MapPost("/multiple", LandmarksHandler.BulkCreateLandmarks).RequireAuthorization(AuthPolicyPermissions.CREATE_MULTIPLE_LANDMARKS);
+    landmarksRoute.MapPost("/{id}/image", LandmarksHandler.UploadLandmarkImage).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
     landmarksRoute.MapDelete("/{id}", LandmarksHandler.DeleteLandmark).RequireAuthorization(AuthPolicyPermissions.DELETE_LANDMARKS);
   }
 }

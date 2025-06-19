@@ -70,6 +70,7 @@ builder.Services.AddAuthorization(options =>
 {
   // Add the policies that endpoints can set as requirements to access (using permissions, which are evaluated during authorization process)
   options.AddAuthorizationPolicy(AuthPolicyPermissions.CREATE_LANDMARKS, AUTH_SERVER_DOMAIN);
+  options.AddAuthorizationPolicy(AuthPolicyPermissions.CREATE_MULTIPLE_LANDMARKS, AUTH_SERVER_DOMAIN);
   options.AddAuthorizationPolicy(AuthPolicyPermissions.UPDATE_OWN_LANDMARKS, AUTH_SERVER_DOMAIN);
   options.AddAuthorizationPolicy(AuthPolicyPermissions.UPDATE_ALL_LANDMARKS, AUTH_SERVER_DOMAIN);
   options.AddAuthorizationPolicy(AuthPolicyPermissions.DELETE_LANDMARKS, AUTH_SERVER_DOMAIN);
@@ -138,7 +139,7 @@ app.UseAuthorization(); // authorization
 // Swagger
 app.MapSwagger().RequireAuthorization();
 
-app.MapGet("/", () => "Hello World!").WithTags("Root"); // TO REMOVE
+// app.MapGet("/", () => "Hello World!").WithTags("Root");
 
 // ========
 // Landmarks

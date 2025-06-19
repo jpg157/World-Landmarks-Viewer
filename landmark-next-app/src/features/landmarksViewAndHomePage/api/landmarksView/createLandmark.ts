@@ -5,7 +5,7 @@ import { Landmark, SavedLandmark } from "../../types/landmarks";
 import { ServerActionResponse, ValidationErrors } from "@/shared/types";
 
 // type with all required fields except imageApiUrl omitted (created in seperate post request)
-type LandmarkExcludeImageUrl = Omit<SavedLandmark, "imageApiUrl">;
+export type LandmarkExcludeImageUrl = Omit<SavedLandmark, "imageApiUrl">;
 
 export async function createLandmark(data: Landmark): Promise<ServerActionResponse<LandmarkExcludeImageUrl>> {
 

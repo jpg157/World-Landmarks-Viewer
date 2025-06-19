@@ -1,6 +1,3 @@
-
-using landmark_backend_api.Models;
-
 /*
 Todo - follow:
 Security steps that reduce the likelihood of a successful attack are:
@@ -16,34 +13,24 @@ Security steps that reduce the likelihood of a successful attack are:
 
 public class ImageService : IImageService
 {
-  private readonly ILandmarkDataAccessor _landmarkDataAccessor;
   private readonly IImageDataAccessor _imageDataAccessor;
 
   public ImageService(
-    ILandmarkDataAccessor landmarkDataAccessor,
     IImageDataAccessor imageDataAccessor)
   {
-    _landmarkDataAccessor = landmarkDataAccessor;
     _imageDataAccessor    = imageDataAccessor;
   }
 
-  public async Task DeleteLandmarkImageAsync(string imageSrcUrl)
+  public async Task DeleteEntityImageAsync(string imageSrcUrl)
   {
     await _imageDataAccessor.DeleteAsync(imageSrcUrl);
   }
 
-  public async Task<string> UploadLandmarkImageAsync(IFormFile imageFile, int landmarkId)
+  public async Task<string> UploadEntityImageAsync(IFormFile imageFile, int entityId, string entityTypeName)
   {
     //TODO: add image file validation here
 
-    string newFileName = $"landmarks/{landmarkId}/images";
-
-    Landmark? landmarkObject = await _landmarkDataAccessor.FindById(landmarkId);
-
-    if (landmarkObject == null)
-    {
-      throw new KeyNotFoundException("Invalid landmark id");
-    }
+    string newFileName = $"${entityTypeName}s/{entityId}/images";
 
     string imageSrcUrl = await _imageDataAccessor.UploadAsync(
       newFileName, 

@@ -9,6 +9,7 @@ public static class AuthPolicyPermissions
   public static readonly string UPDATE_OWN_LANDMARKS = "update:own_landmarks";
   public static readonly string UPDATE_ALL_LANDMARKS = "update:all_landmarks";
   public static readonly string CREATE_LANDMARKS = "create:landmarks";
+  public static readonly string CREATE_MULTIPLE_LANDMARKS = "create:multiple_landmarks";
   public static readonly string DELETE_LANDMARKS = "delete:landmarks";
 
   // Required scope (permission) for frontend app

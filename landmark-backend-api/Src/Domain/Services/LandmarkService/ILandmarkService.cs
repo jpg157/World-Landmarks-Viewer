@@ -9,7 +9,8 @@ public interface ILandmarkService
   Task<PaginatedItemsDTO<Landmark>> GetAllLandmarks();
   Task<Landmark?> GetLandmarkById(int id);
   Task<Landmark> CreateLandmark(LandmarkReqDto landmarkDto);
-  //TODO: UpdateLandmark(LandmarkReqDto landmarkDto);
-  Task<Landmark?> UpdateLandmarkImage(string imageSrcUrl, int landmarkId);
+  Task<IEnumerable<Landmark>> BulkCreateLandmarks(IEnumerable<LandmarkReqDto> landmarkDtos);
+  //TODO: Task<Landmark?> UpdateLandmark(LandmarkReqDto landmarkDto);
+  Task<Landmark?> UploadLandmarkImage(IFormFile landmarkImage, int landmarkId);
   Task DeleteLandmarkById(int id);
 }
