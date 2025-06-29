@@ -10,6 +10,6 @@ public class LandmarkReqDto
 {
   public string? Name { get; set; }
   public string? Description { get; set; }
-  public string? ImageApiUrl { get; set; }
+  public string? ImageApiUrl { get; set; } //TEMPORARY DELETE LATER
   public LandmarkLocationDataReqDto? LandmarkLocation { get; set; }
 }

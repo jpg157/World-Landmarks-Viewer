@@ -1,13 +1,13 @@
 'use client'
 
-import InputErrorLabel from '@/shared/components/inputErrorLabel';
 import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup';
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import Image from 'next/image'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 type FileUploadComponentProps = {
-  fileImageSrc: string | StaticImport | undefined;
+  currPreviewFile?: File | null;
+  previewFileSrc?: string | StaticImport | null;
   onFileSelect: (file: File) => void;
   disabled: boolean;
   fileInputValidationErrors?: string[];
@@ -16,16 +16,14 @@ type FileUploadComponentProps = {
 };
 
 const FileUploadComponent = ({
-  fileImageSrc,
-  onFileSelect, 
+  currPreviewFile,
+  previewFileSrc,
+  onFileSelect,
   disabled,
-  fileInputValidationErrors, 
+  fileInputValidationErrors,
   acceptedFileTypes,
   maxFileSizeMb
 }: FileUploadComponentProps) => {
-
-  const [previewFile, setPreviewFile] = useState<File | null>();
-  const [showFileSizeError, setShowFileSizeError] = useState<boolean>(false);
 
   function getAcceptedFileTypes(
     acceptedFileTypes: string[], 
@@ -40,24 +38,11 @@ const FileUploadComponent = ({
     return acceptedFileTypesString;
   }
 
-  async function loadAndPreviewImage(event: ChangeEvent<HTMLInputElement>)
+  async function handleImageInput(event: ChangeEvent<HTMLInputElement>)
   {
     const file: File | undefined = event.target.files?.[0];
     if (!file) return;
-
-    // validate file size if maxFileSizeMb param not undefined
-    const fileSizeBytes = file.size / 1000;
-    if (maxFileSizeMb && (fileSizeBytes > maxFileSizeMb * 1000))
-    {
-      setShowFileSizeError(true);
-      return;
-    }
-
-    //todo: store the setFile in the Form, not in the file upload component
-    // and pass the file into the fileUplaod component from the form
-    setPreviewFile(file);
-    onFileSelect(file)
-    setShowFileSizeError(false);
+    onFileSelect(file);
   }
 
   return (
@@ -69,7 +54,7 @@ const FileUploadComponent = ({
           w-full
           border-1
           rounded
-          ${showFileSizeError || (fileInputValidationErrors !== undefined) ? "border-error" : "border-black"}
+          ${(fileInputValidationErrors !== undefined) ? "border-error" : "border-black"}
           relative 
           flex flex-col 
           justify-center items-center
@@ -101,30 +86,26 @@ const FileUploadComponent = ({
               opacity-0 w-full h-full absolute 
               ${!disabled && 'hover:cursor-pointer'}
             `}
-            onChange={loadAndPreviewImage}
+            onChange={handleImageInput}
           />
           Browse File
         </div>
       </div>
-      {showFileSizeError && (
-        <InputErrorLabel errorMessage="Over the file size limit."/>
-      )}
       {fileInputValidationErrors && (
-        // <InputErrorLabel errorMessage="Please enter an file."/>
         <InputErrorLabelsGroup errorMessages={fileInputValidationErrors}/>
       )}
-      {(fileImageSrc && previewFile) &&
+      {(previewFileSrc && currPreviewFile) &&
         (
           <div className='mt-4 flex flex-row gap-3 p-3 rounded-lg bg-app-secondary'>
             <Image 
-              src={fileImageSrc}
+              src={previewFileSrc}
               alt={"uploaded file"}
               width={75}
               height={75}
             />
             <div className='flex flex-col gap-1'>
-              <div>{previewFile.name}</div>
-              <div>{previewFile.size / 1000}
+              <div>{currPreviewFile.name}</div>
+              <div>{currPreviewFile.size / 1000}
                 &nbsp;KB
                 {maxFileSizeMb && ` of ${maxFileSizeMb} MB`}
               </div>

@@ -1,6 +1,6 @@
 using CloudinaryDotNet;
 
-namespace landmark_backend_api.Data.ExternalApis.Config;
+namespace landmark_backend_api.DataAccess.ExternalApis.Config;
 public static class CloudinaryConfig
 {
   public static Cloudinary CreateCloudinary(string? cloudinaryUrl)

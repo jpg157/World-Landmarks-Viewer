@@ -179,7 +179,7 @@ export const BulkCreateLandmarkForm = ({
 
       <FileUploadComponent 
         disabled={pending}
-        fileImageSrc={undefined}//{dataFileImage} // Not used
+        // fileImageSrc={null}//{dataFileImage} // Not used
         onFileSelect={handleFileSelect}
         fileInputValidationErrors={dataFileError}
         acceptedFileTypes={ALLOWED_DATA_FILE_TYPES}
@@ -196,7 +196,7 @@ export const BulkCreateLandmarkForm = ({
           }
         `}
       >
-        Submit
+        { pending ? '...' : 'Create' }
       </Button>
     </form>
   )

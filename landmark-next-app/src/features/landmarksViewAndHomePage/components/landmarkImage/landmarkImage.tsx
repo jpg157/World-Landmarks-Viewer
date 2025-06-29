@@ -1,8 +1,12 @@
 'use client'
 
 import React from 'react'
-import { LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps'
 import { CldImage } from 'next-cloudinary'
+
+export type LandmarkImageProps = {
+  imageSrcUrl: string;
+  imageAlt: string;
+};
 
 const LandmarkImage = ({
   imageSrcUrl,

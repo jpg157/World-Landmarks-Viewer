@@ -6,9 +6,11 @@ import { UserRolesEnum } from '@/features/auth/constants/userRoles';
 import { AUTH0_RETURN_URLS } from '@/shared/constants/auth0ReturnUrls';
 import { AuthUser } from '@/features/auth/types';
 import { Button } from '@/shared/components/buttons/button';
-import CreateLandmarkModal from './createLandmarkModal';
 import { Modal, ModalTitle } from '@/shared/components/modal';
+// import { LandmarkForm } from './landmarkForm';
 import { BulkCreateLandmarkForm } from './bulkCreateLandmarkForm';
+import { LandmarkFormType } from '@/features/landmarksViewAndHomePage/constants/landmarkFormTypeEnum';
+import LandmarkFormV2 from './landmarkFormV2';
 
 const CreateLandmarkComponentGroup = ({
   currentUser
@@ -32,7 +34,7 @@ const CreateLandmarkComponentGroup = ({
           >
             Add a New Landmark
           </Button>
-          {currentUser && (
+          {(currentUser?.roles.includes(UserRolesEnum.ADMIN)) && (
             <>
               <p>Or</p>
               <Button onClick={() => {setBulkCreateModalShown(true)}}
@@ -50,22 +52,27 @@ const CreateLandmarkComponentGroup = ({
           )}
         </div>
       </div>
+
       {createModalShown && (
         <AuthGuard loginReturnUrl={AUTH0_RETURN_URLS.VIEW_LANDMARKS} requiredUserRole={UserRolesEnum.REGULAR_USER}>
-          <CreateLandmarkModal 
-            isOpen={createModalShown} 
-            onClose={() => {setCreateModalShown(false)}}
-          />
+          <Modal 
+            isOpen={createModalShown}
+            onClose={setCreateModalShown}
+          >
+            <div className='flex flex-col justify-center gap-4'>
+              <ModalTitle title={"Add a New Landmark"}/>
+              <LandmarkFormV2 
+                onClose={setCreateModalShown}
+                formType={LandmarkFormType.CREATE}
+              />
+            </div>
+          </Modal>
         </AuthGuard>
       )}
 
       {(bulkCreateModalShown && currentUser) && (
-         // Using AuthGuard component for security purposes in case currentUser was not set correctly
+         // Using AuthGuard component for security in case currentUser was not set correctly
          <AuthGuard loginReturnUrl={AUTH0_RETURN_URLS.VIEW_LANDMARKS} requiredUserRole={UserRolesEnum.ADMIN}>
-          {/* <BulkCreateLandmarkModal 
-            isOpen={bulkCreateModalShown} 
-            onClose={() => {setBulkCreateModalShown(false)}}
-          /> */}
           <Modal 
             isOpen={bulkCreateModalShown}
             onClose={setBulkCreateModalShown}

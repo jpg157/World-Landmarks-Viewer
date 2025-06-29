@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import LandmarkImage from '../landmarkImage/landmarkImage';
-import { LandmarkCardProps } from '@/features/landmarksViewAndHomePage/types/landmarkComponentPropTypes/landmarkComponentProps';
+import LandmarkImage, { LandmarkImageProps } from '../landmarkImage/landmarkImage';
 import { Button } from '@/shared/components/buttons/button';
 import { NavLink } from '@/shared/components/buttons/navLink';
 import { streetViewPageRoute, viewLandmarksPageRoute } from '@/shared/constants/pageRoutes';
@@ -11,6 +10,15 @@ import { isAuthorizedUser } from '@/features/auth/lib/userRoles';
 import { deleteLandmark } from '@/features/admin/api/deleteLandmark';
 import { ConfirmationDialog } from '@/shared/components/confirmationDialog';
 import { useRouter } from 'next/navigation';
+import { AuthUser } from '@/features/auth/types';
+
+export type LandmarkCardProps = {
+  landmarkId: number;
+  landmarkName: string;
+  landmarkDescription: string;
+  imageProps: LandmarkImageProps;
+  currentUser: AuthUser | undefined | null;
+};
 
 const LandmarkCard = ({
   landmarkId,

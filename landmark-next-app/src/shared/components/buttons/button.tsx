@@ -1,24 +1,17 @@
 import { mergeTwClassnames } from "@/shared/lib/mergeClassnames";
-import { ButtonHTMLAttributes, ReactNode } from "react";
-
-type ButtonProps = {
-  children: ReactNode;
-  className?: string;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+import { ButtonHTMLAttributes } from "react";
 
 export const Button = ({
-  children,
-  className,
   ...props
-}: ButtonProps) => {
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button 
       {...props}
       className={mergeTwClassnames(
-        `hover:cursor-pointer px-6 py-1 roboto text-center ${className}`
+        `hover:cursor-pointer px-6 py-1 roboto text-center ${props.className}`
       )}
     >
-      {children}
+      {props.children}
     </button>
   )
 }

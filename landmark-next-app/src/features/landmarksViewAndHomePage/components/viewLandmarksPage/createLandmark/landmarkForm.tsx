@@ -12,8 +12,8 @@ import { uploadLandmarkImageFile } from '@/features/landmarksViewAndHomePage/api
 import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup'
 import { setAntiforgeryTokenHeaders } from '@/shared/api/security/setAntiforgeryTokenHeaders'
 import { useRouter } from 'next/navigation';
-import { CloseIconButton } from '@/shared/components/buttons/closeIconButton'
 import { ALLOWED_IMAGE_FILE_TYPES } from '@/features/landmarksViewAndHomePage/constants/fileConstants'
+import { LandmarkFormType } from '@/features/landmarksViewAndHomePage/constants/landmarkFormTypeEnum'
 
 // Create landmark form validation schema
 const landmarkSchema = z.object({
@@ -24,13 +24,15 @@ const landmarkSchema = z.object({
   // landmarkLocation?: LandmarkLocationData //TODO
 });
 
-type CreateLandmarkFormProps = {
-  onClose: () => void;
+type LandmarkFormProps = {
+  onClose: (open: boolean) => void;
+  formType: LandmarkFormType
 }
 
-const CreateLandmarkForm = ({ 
+export const LandmarkForm = ({
+  formType,
   onClose 
-}: CreateLandmarkFormProps) => {
+}: LandmarkFormProps) => {
 
   const router = useRouter();
 
@@ -112,9 +114,8 @@ const CreateLandmarkForm = ({
       return { success, data };
   }
 
-  // Submit form state data
-  // handles creation of FormData object to pass into server function
-  async function handleFormSubmit() { // uncontrolled form input data unused
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
     // Validate form fields - return if unsuccessful
     const { success, data } = validateFormFields();
@@ -126,12 +127,22 @@ const CreateLandmarkForm = ({
     const landmarkData: Landmark = {
       name: data.landmarkName,
       description: data.landmarkDescription,
-      // landmarkCreationDate? //TODO
       // landmarkLocation?: LandmarkLocationData //TODO
     }
 
     setIsPending(true);
 
+    if (formType === LandmarkFormType.CREATE) {
+      handleCreateLandmark(landmarkData, data.landmarkImgFile);
+    }
+    else if (formType === LandmarkFormType.UPDATE) {
+      handleUpdateLandmark();
+    }
+  }
+
+  // Submit form state data
+  // handles creation of FormData object to pass into server function
+  async function handleCreateLandmark(landmarkData: Landmark, landmarkImgFile: File) { // uncontrolled form input data unused
     try {
       const createLandmarkRes = await createLandmark(landmarkData);
 
@@ -143,7 +154,7 @@ const CreateLandmarkForm = ({
 
       // Create FormData object to send to server
       const formData: FormData = new FormData(); // FormData is set of key/value pairs representing form fields and values - can be used for sending content-type of multipart/formdata
-      formData.append(landmarkImageFileFormField, data.landmarkImgFile);
+      formData.append(landmarkImageFileFormField, landmarkImgFile);
       
       // Make second post request to server sending the image file (id passed in should match the server-side held id of the landmark)
 
@@ -175,7 +186,7 @@ const CreateLandmarkForm = ({
       // localStorage.deleteEntry(`${LANDMARK_STORAGE_PREFIX}imageUrl`);
 
       router.refresh();
-      onClose();
+      onClose(false);
     }
     catch (error) {
       if (error instanceof Error) {
@@ -220,39 +231,29 @@ const CreateLandmarkForm = ({
     return formData;
   }
 
-  // Register keydown event to handle when user presses 'Esc' key
-  useEffect(() => {
+  // // Register keydown event to handle when user presses 'Esc' key
+  // useEffect(() => {
     
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Allow Esc key to close the form, but prevent Esc from closing the form while data is being processed
-      if (!isPending && event.key === "Escape") onClose();
-    }
+  //   const handleKeyDown = (event: KeyboardEvent) => {
+  //     // Allow Esc key to close the form, but prevent Esc from closing the form while data is being processed
+  //     if (!isPending && event.key === "Escape") onClose();
+  //   }
 
-    window.onkeydown = handleKeyDown;
-    return () => {window.removeEventListener("keydown", handleKeyDown)}
+  //   window.onkeydown = handleKeyDown;
+  //   return () => {window.removeEventListener("keydown", handleKeyDown)}
     
-  }, [isPending]);
+  // }, [isPending]);
 
   return (
-    <form onSubmit={(event) => {
-      event.preventDefault();
-      handleFormSubmit();
-    }}
-    className={`
-      z-50
-      shadow-lg
-      flex flex-col justify-center
-      gap-4
-      py-12
-      px-12
-      bg-white
-      rounded-md
-      relative
+    <form onSubmit={handleFormSubmit}
+      className={`
+        flex flex-col justify-center
+        gap-4
       `}
     >
-      <CloseIconButton onClick={onClose} className='absolute top-4 right-4'/>
+      {/* <CloseIconButton onClick={onClose} className='absolute top-4 right-4'/> */}
       
-      <h1 className={`
+      {/* <h1 className={`
         inline-block 
         text-lg 
         md:text-2xl 
@@ -261,7 +262,7 @@ const CreateLandmarkForm = ({
         `}
       >
         Add a New Landmark
-      </h1>
+      </h1> */}
       <div> 
         <div className={`flex flex-row justify-between gap-10`}>
             <label htmlFor="landmark_name" className="m-0 p-0 inline">Landmark Name</label>
@@ -362,5 +363,3 @@ const CreateLandmarkForm = ({
     </form>
   )
 }
-
-export default CreateLandmarkForm

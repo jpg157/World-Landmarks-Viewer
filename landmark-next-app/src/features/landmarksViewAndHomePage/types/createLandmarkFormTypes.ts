@@ -1,12 +1,12 @@
-export type CreateLandmarkFormData = {
-  landmarkName: string,
-  landmarkDescription: string,
-  landmarkImgFile: File | null,
-  landmarkImgUrl: string | undefined
-}
+// export type LandmarkData = {
+//   name: string,
+//   description: string,
+//   imgFile: File | null,
+//   imgUrl: string | undefined
+// };
 
 export type CreateLandmarkFormErrors = {
-  landmarkNameErrors?: string[],
-  landmarkDescriptionErrors?: string[],
-  landmarkImgFileErrors?: string[]
-}
+  name?: string[] | undefined;
+  description?: string[] | undefined;
+  imgFile?: string[] | undefined;
+};

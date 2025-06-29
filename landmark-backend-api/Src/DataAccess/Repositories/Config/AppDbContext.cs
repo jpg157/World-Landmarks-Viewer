@@ -1,7 +1,7 @@
 using landmark_backend_api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace landmark_backend_api.Data.Repositories.Config;
+namespace landmark_backend_api.DataAccess.Repositories.Config;
 
 public class AppDbContext : DbContext
 {

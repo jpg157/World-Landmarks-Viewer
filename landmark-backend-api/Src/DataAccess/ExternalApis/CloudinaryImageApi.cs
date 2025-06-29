@@ -1,7 +1,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
-namespace landmark_backend_api.Data.ExternalApis;
+namespace landmark_backend_api.DataAccess.ExternalApis;
 
 public class CloudinaryImageApi : IImageDataAccessor
 {

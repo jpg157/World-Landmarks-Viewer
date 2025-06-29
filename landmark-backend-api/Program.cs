@@ -1,11 +1,11 @@
 using landmark_backend_api.Services.LandmarkService;
-using landmark_backend_api.Data.ExternalApis.Config;
-using landmark_backend_api.Data.ExternalApis;
+using landmark_backend_api.DataAccess.ExternalApis.Config;
+using landmark_backend_api.DataAccess.ExternalApis;
 using landmark_backend_api.Endpoints;
 using landmark_backend_api.Src.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using landmark_backend_api.Data.Repositories;
-using landmark_backend_api.Data.Repositories.Config;
+using landmark_backend_api.DataAccess.Repositories;
+using landmark_backend_api.DataAccess.Repositories.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using landmark_backend_api;
@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authorization;
 using landmark_backend_api.Middleware.Auth;
 using landmark_backend_api.Validators;
 using FluentValidation;
+using landmark_backend_api.Services.ImageService;
+using landmark_backend_api.DataAccess;
 
 // asp .net core app config - using minimal api
 // launches a host responsible for:
@@ -100,7 +102,7 @@ builder.Services.AddScoped<IReqDtoValidator, ReqDtoValidator>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<ILandmarkService, LandmarkService>();
 builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<ILandmarkDataAccessor, LandmarkRepository>(); //TODO: change this to scoped service once db implemented
+builder.Services.AddScoped<ILandmarkDataAccessor, LandmarkRepository>();
 builder.Services.AddScoped<IImageDataAccessor, CloudinaryImageApi>();
 
 // Cloudinary singleton instance used in CloudinaryImageApi service

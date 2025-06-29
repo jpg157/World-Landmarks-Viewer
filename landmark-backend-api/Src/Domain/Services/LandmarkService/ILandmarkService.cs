@@ -10,7 +10,7 @@ public interface ILandmarkService
   Task<Landmark?> GetLandmarkById(int id);
   Task<Landmark> CreateLandmark(LandmarkReqDto landmarkDto);
   Task<IEnumerable<Landmark>> BulkCreateLandmarks(IEnumerable<LandmarkReqDto> landmarkDtos);
-  //TODO: Task<Landmark?> UpdateLandmark(LandmarkReqDto landmarkDto);
+  Task<Landmark?> UpdateLandmark(int id, LandmarkReqDto landmarkDto);
   Task<Landmark?> UploadLandmarkImage(IFormFile landmarkImage, int landmarkId);
   Task DeleteLandmarkById(int id);
 }

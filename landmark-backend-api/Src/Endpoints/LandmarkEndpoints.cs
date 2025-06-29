@@ -11,10 +11,11 @@ public static class LandmarkEndpoints
                             .WithTags("Landmarks");
 
     landmarksRoute.MapGet("/", LandmarksHandler.GetAllLandmarks);
-    landmarksRoute.MapGet("/{id}", LandmarksHandler.GetLandmarkById);
     landmarksRoute.MapPost("/", LandmarksHandler.CreateLandmark).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
-    landmarksRoute.MapPost("/multiple", LandmarksHandler.BulkCreateLandmarks).RequireAuthorization(AuthPolicyPermissions.CREATE_MULTIPLE_LANDMARKS);
-    landmarksRoute.MapPost("/{id}/image", LandmarksHandler.UploadLandmarkImage).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
+    landmarksRoute.MapGet("/{id}", LandmarksHandler.GetLandmarkById);
+    landmarksRoute.MapPatch("/{id}", LandmarksHandler.UpdateLandmark);
     landmarksRoute.MapDelete("/{id}", LandmarksHandler.DeleteLandmark).RequireAuthorization(AuthPolicyPermissions.DELETE_LANDMARKS);
+    landmarksRoute.MapPost("/{id}/image", LandmarksHandler.UploadLandmarkImage).RequireAuthorization(AuthPolicyPermissions.CREATE_LANDMARKS);
+    landmarksRoute.MapPost("/multiple", LandmarksHandler.BulkCreateLandmarks).RequireAuthorization(AuthPolicyPermissions.CREATE_MULTIPLE_LANDMARKS);
   }
 }

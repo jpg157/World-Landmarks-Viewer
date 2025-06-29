@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using landmark_backend_api.Data.Repositories.Config;
+using landmark_backend_api.DataAccess.Repositories.Config;
 
 #nullable disable
 

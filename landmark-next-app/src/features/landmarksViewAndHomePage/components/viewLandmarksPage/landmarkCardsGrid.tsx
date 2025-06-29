@@ -1,9 +1,9 @@
 import React from 'react'
-import { LandmarkCardProps, LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps';
 import { SavedLandmark } from '../../types/landmarks';
 import { getAllLandmarks } from '../../api/landmarksView/getLandmarks';
-import LandmarkCard from './/landmarkCard';
+import LandmarkCard, { LandmarkCardProps } from './/landmarkCard';
 import { AuthUser } from '@/features/auth/types';
+import { LandmarkImageProps } from '../landmarkImage/landmarkImage';
 
 export default async function LandmarkCardsGrid({
   currentUser

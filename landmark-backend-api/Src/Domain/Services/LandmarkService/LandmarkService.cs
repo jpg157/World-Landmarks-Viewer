@@ -2,6 +2,8 @@ using landmark_backend_api.Models;
 using landmark_backend_api.Dtos.Request;
 using landmark_backend_api.Dtos.Response;
 using landmark_backend_api.Validators;
+using landmark_backend_api.Services.ImageService;
+using landmark_backend_api.DataAccess;
 
 namespace landmark_backend_api.Services.LandmarkService;
 
@@ -56,17 +58,25 @@ public class LandmarkService : ILandmarkService
     return newLandmarks;
   }
 
+  public async Task<Landmark?> UpdateLandmark(int landmarkId, LandmarkReqDto landmarkDto)
+  {
+    Landmark landmark = CreateLandmarkDomainEntityFromDto(landmarkDto);
+    Landmark? updatedLandmark = await _landmarkDataAccessor.Update(landmarkId, landmark);
+    return updatedLandmark;
+  }
+
   public async Task<Landmark?> UploadLandmarkImage(IFormFile imageFile, int landmarkId)
   {
-    Landmark? landmarkObject = await _landmarkDataAccessor.FindById(landmarkId);
+    Landmark? foundLandmark = await _landmarkDataAccessor.FindById(landmarkId);
 
-    if (landmarkObject == null)
+    if (foundLandmark == null)
     {
-      throw new KeyNotFoundException("Invalid landmark id");
+      return null;
     }
 
-    string imageSrcUrl = await _imageService.UploadEntityImageAsync(imageFile!, landmarkId, landmarkObject.GetType().Name);
-    return await _landmarkDataAccessor.UpdateImageSrcUrl(imageSrcUrl, landmarkId);
+    string imageSrcUrl = await _imageService.UploadEntityImageAsync(imageFile!, landmarkId, foundLandmark.GetType().Name);
+    Landmark? updatedLandmark = await _landmarkDataAccessor.UpdateImageSrcUrl(imageSrcUrl, landmarkId);
+    return updatedLandmark;
   }
 
   public async Task DeleteLandmarkById(int id)

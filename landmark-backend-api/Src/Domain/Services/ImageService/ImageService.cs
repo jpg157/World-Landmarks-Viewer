@@ -11,6 +11,10 @@ Security steps that reduce the likelihood of a successful attack are:
     Run a virus/malware scanner on uploaded content before the file is stored.
 */
 
+using landmark_backend_api.DataAccess;
+
+namespace landmark_backend_api.Services.ImageService;
+
 public class ImageService : IImageService
 {
   private readonly IImageDataAccessor _imageDataAccessor;
@@ -18,7 +22,7 @@ public class ImageService : IImageService
   public ImageService(
     IImageDataAccessor imageDataAccessor)
   {
-    _imageDataAccessor    = imageDataAccessor;
+    _imageDataAccessor = imageDataAccessor;
   }
 
   public async Task DeleteEntityImageAsync(string imageSrcUrl)
@@ -33,7 +37,7 @@ public class ImageService : IImageService
     string newFileName = $"${entityTypeName}s/{entityId}/images";
 
     string imageSrcUrl = await _imageDataAccessor.UploadAsync(
-      newFileName, 
+      newFileName,
       imageFile
     );
 

@@ -143,6 +143,42 @@ public static class LandmarksHandler
     }
   }
 
+  internal static async Task<Results<NoContent, BadRequest<IEnumerable<ValidationResponseDto>>, NotFound<string>, InternalServerError>>
+  UpdateLandmark(
+    int id,
+    LandmarkReqDto landmarkReqDto,
+    IReqDtoValidator validator,
+    ILandmarkService landmarkService
+  )
+  {
+    try
+    {
+      IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(landmarkReqDto);
+
+      if (validationProblems.Any())
+      {
+        return TypedResults.BadRequest(validationProblems);
+      }
+
+      Landmark? updatedLandmark = await landmarkService.UpdateLandmark(id, landmarkReqDto);
+
+      if (updatedLandmark == null)
+      {
+        return TypedResults.NotFound("Invalid landmark id");
+      }
+
+      return TypedResults.NoContent();
+    }
+    catch (KeyNotFoundException e)
+    {
+      return TypedResults.NotFound(e.Message);
+    }
+    catch (Exception)
+    {
+      return TypedResults.InternalServerError();
+    }
+  }
+
   // IFormFile parameter name needs to match the form file name in formdata from request
   internal static async Task<Results<Created<string>, BadRequest<IEnumerable<ValidationResponseDto>>, NotFound<string>, InternalServerError<string>>>
   UploadLandmarkImage(
@@ -161,20 +197,15 @@ public static class LandmarksHandler
       {
         return TypedResults.BadRequest(validationProblems);
       }
-      
+
       Landmark? updatedLandmark = await landmarkService.UploadLandmarkImage(imageFile!, id);
 
       if (updatedLandmark == null)
       {
-        // Should never get here since landmark should be valid from previous image upload method
-        return TypedResults.InternalServerError("Error while updating landmark image");
+        return TypedResults.NotFound("Invalid landmark id");
       }
 
       return TypedResults.Created($"/api/landmarks-view/landmarks/{id}/image", updatedLandmark.ImageApiUrl); // 201 created
-    }
-    catch (KeyNotFoundException error)
-    {
-      return TypedResults.NotFound(error.Message);
     }
     //TODO: catch cloudinary image exception
     // image validator exception (when the image doesn't match the landmark name)
