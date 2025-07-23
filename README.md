@@ -20,6 +20,7 @@ Users can view landmark details to learn about their cultural and historical sig
 - Validation:
   - Checking if the landmark information describes an actual landmark, and that the image matches with the landmark name and description    *- not implemented yet*
   - Checking if the landmark being created already exists    *- not implemented yet*
+- Auth: OIDC-based using Auth0 as external identity provider. Access tokens are obtained in the frontend app, and validated indirectly by the backend api.
 
 ## Tech Stack
 
@@ -34,7 +35,40 @@ Users can view landmark details to learn about their cultural and historical sig
 
 ## Installation
 
+*Currently the app will not work without the Auth0 client being configured using the .env and appsettings.json variable values.*
+*This section and the example envs will be updated soon with the missing Auth0 variables.*
+
 1. **Clone the repository**
    ```bash
-   git clone 
+   git clone https://github.com/jpg157/World-Landmarks-Viewer.git
    ```
+2. **Install frontend dependencies**
+   ```bash
+   cd landmark-next-app
+   npm i
+   ```
+3. **Install backend dependencies**
+   ```bash
+   cd ../landmark-backend-api
+   dotnet restore
+   ```
+4. **Setup configuration files**
+
+   Create .env files in the root levels of the frontend and backend directories:
+   
+   - landmark-next-app / frontend:
+     - .env
+     - .env.local
+   - landmark-backend-api /backend:
+     - .env.Development
+     - appsettings.Development.json
+
+    Copy the variable names from each env.example or appsettings.json file to their corresponding file created above
+
+6. **Environment Variables**:
+
+   *Currently in progress*
+
+
+  
+  
