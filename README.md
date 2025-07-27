@@ -36,7 +36,7 @@ Users can view landmark details to learn about their cultural and historical sig
 ## Installation
 
 *Currently the app will not work without the Auth0 client being configured using the .env and appsettings.json values.*
-*This section and the example envs will be updated soon with the missing Auth0 variables.*
+*This section and the example envs will be updated soon with steps to obtain the missing Auth0 variables.*
 
 1. **Clone the repository**
    ```bash
