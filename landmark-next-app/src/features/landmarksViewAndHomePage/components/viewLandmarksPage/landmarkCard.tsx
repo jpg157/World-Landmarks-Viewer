@@ -32,7 +32,7 @@ const LandmarkCard = ({
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const showDescription = () => {
-    alert(landmarkDescription); //TODO: implement card flip animation, also display landmarkDescription on opposite side of card
+    alert(landmarkDescription);
   }
 
   const handleDelete = async () => {
@@ -48,9 +48,8 @@ const LandmarkCard = ({
   }
 
   return (
-    // TODO: make the card expand EQUALLY in all directions when hovered
     <>
-      <div className='transition hover:scale-105'>
+      <div className='p-1 transition delay-75 border border-transparent hover:border-app-primary-text rounded-md'>
         <div className='h-[30vh]'>
           <LandmarkImage {...(imageProps)}></LandmarkImage>
         </div>

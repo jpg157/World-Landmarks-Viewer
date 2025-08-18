@@ -7,6 +7,7 @@ import { Button } from '@/shared/components/buttons/button';
 import { ALLOWED_DATA_FILE_TYPES } from '@/features/landmarksViewAndHomePage/constants/fileConstants';
 import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup';
 import { createMultipleLandmarks } from '@/features/landmarksViewAndHomePage/api/landmarksView/createMultipleLandmarks';
+import { LoadingSpinner } from '@/shared/components/spinner';
 // import jsonFileIcon from '@/images/fileTypeIcons/json-logo.png';
 // import csvFileIcon from '@/images/fileTypeIcons/csv-logo.png'
 
@@ -196,7 +197,14 @@ export const BulkCreateLandmarkForm = ({
           }
         `}
       >
-        { pending ? '...' : 'Create' }
+        { pending 
+          ? 
+          <div className='flex flex-row justify-center items-center'>
+            <LoadingSpinner color='white' size={25}/>
+          </div>
+          : 
+          'Create'
+        }
       </Button>
     </form>
   )

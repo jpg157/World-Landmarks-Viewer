@@ -1,5 +1,4 @@
 import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { Button } from './buttons/button';
 import { CloseIconButton } from './buttons/closeIconButton';
 import { mergeTwClassnames } from '../lib/mergeClassnames';
 

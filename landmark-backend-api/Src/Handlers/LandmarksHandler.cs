@@ -190,7 +190,7 @@ public static class LandmarksHandler
   {
     try
     {
-      // Validate dto
+      // Validate imageFile
       IEnumerable<ValidationResponseDto> validationProblems = validator.ValidateAndGetProblems(imageFile);
 
       if (validationProblems.Any())

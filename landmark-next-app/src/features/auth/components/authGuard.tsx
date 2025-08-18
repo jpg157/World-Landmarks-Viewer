@@ -32,7 +32,6 @@ const AuthGuard = ({
 
     if (!isAuthorizedUser(user.roles, requiredUserRole))
     {
-      alert('user is not authorized');
       loginWithOidcProvider(loginReturnUrl);
       return;
     }

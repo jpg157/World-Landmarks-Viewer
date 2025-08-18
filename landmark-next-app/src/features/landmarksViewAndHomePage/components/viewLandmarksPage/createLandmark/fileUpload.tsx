@@ -4,6 +4,7 @@ import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup';
 import React, { ChangeEvent } from 'react'
 import Image from 'next/image'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { getAllowedFileTypesForInputElement, getAllowedFileTypesReadable } from '@/features/landmarksViewAndHomePage/utils/fileTypes';
 
 type FileUploadComponentProps = {
   currPreviewFile?: File | null;
@@ -24,20 +25,7 @@ const FileUploadComponent = ({
   acceptedFileTypes,
   maxFileSizeMb
 }: FileUploadComponentProps) => {
-
-  function getAcceptedFileTypes(
-    acceptedFileTypes: string[], 
-    semantic: boolean
-  ) {
-    const acceptedFileTypesString = acceptedFileTypes.reduce((accumulator, currFileType, index) => {
-      const fileType = (semantic) ? currFileType.replace(".", "").toUpperCase() : currFileType;
-      accumulator += (index === 0 ? fileType : `, ${fileType}`);
-      return accumulator;
-    }, "");
-
-    return acceptedFileTypesString;
-  }
-
+  
   async function handleImageInput(event: ChangeEvent<HTMLInputElement>)
   {
     const file: File | undefined = event.target.files?.[0];
@@ -64,7 +52,7 @@ const FileUploadComponent = ({
         <h1>Drag and Drop a File here</h1>
         <h1>
           Allowed formats:&nbsp;
-          {getAcceptedFileTypes(acceptedFileTypes, true)}
+          {getAllowedFileTypesReadable(acceptedFileTypes)}
           {maxFileSizeMb && ` (max ${maxFileSizeMb} MB)`}
         </h1>
         <div 
@@ -81,7 +69,7 @@ const FileUploadComponent = ({
             disabled={disabled}
             type="file" 
             name="file"
-            accept={getAcceptedFileTypes(acceptedFileTypes, false)} // allow these file types
+            accept={getAllowedFileTypesForInputElement(acceptedFileTypes)} // allow these file types
             className={`
               opacity-0 w-full h-full absolute 
               ${!disabled && 'hover:cursor-pointer'}

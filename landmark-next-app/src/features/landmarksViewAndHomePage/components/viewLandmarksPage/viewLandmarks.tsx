@@ -6,10 +6,10 @@ import { AUTH0_RETURN_URLS } from "@/shared/constants/auth0ReturnUrls"
 import NavigationMenu from '@/features/navigationMenu/components/navigationMenu';
 import { mainPageNavItemProps } from '@/features/navigationMenu/constants/NavMenuLinks';
 import CreateLandmarkComponentGroup from './createLandmark/createLandmarkComponentGroup';
+import { LoadingSpinner } from '@/shared/components/spinner';
 
 export default async function ViewLandmarksPageContainer() {
 
-  // check if user session exists
   const getUserRes        = await getUser();
   const userSessionExists = getUserRes.ok;
   const currentUser       = getUserRes.ok ? getUserRes.data : null;
@@ -51,7 +51,6 @@ export default async function ViewLandmarksPageContainer() {
         </div>
         <CreateLandmarkComponentGroup currentUser={currentUser}/>
       </div>
-
       <Footer fixedToBottomPosition={false}></Footer>
     </>
   )

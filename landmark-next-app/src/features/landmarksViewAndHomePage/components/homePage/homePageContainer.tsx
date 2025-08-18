@@ -2,13 +2,13 @@ import React from 'react'
 import ExploreLandmarksButton from './exploreLandmarksButton'
 import Footer from '@/features/footer/components/footer'
 import LandmarkImageCarousel from './landmarkImageCarousel/landmarkImageCarousel'
-import { LandmarkImageProps } from '../../types/landmarkComponentPropTypes/landmarkComponentProps'
 import { getAllLandmarks } from '../../api/landmarksView/getLandmarks'
 import { LandmarksResponse, SavedLandmark } from '../../types/landmarks'
 import NavigationMenu from '@/features/navigationMenu/components/navigationMenu'
 import { homePageNavItemProps } from '@/features/navigationMenu/constants/NavMenuLinks'
 import { getUser } from '@/features/auth/lib/getUser'
 import { AUTH0_RETURN_URLS } from '@/shared/constants/auth0ReturnUrls'
+import { LandmarkImageProps } from '../landmarkImage/landmarkImage'
 
 async function HomePageContainer() {
 

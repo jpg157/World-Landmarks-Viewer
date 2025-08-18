@@ -11,23 +11,28 @@ import { setAntiforgeryTokenHeaders } from '@/shared/api/security/setAntiforgery
 import { Button } from '@/shared/components/buttons/button';
 import { localStorage } from '@/shared/utils/localStorage';
 import { useRouter } from 'next/navigation';
-import React, { useActionState, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { z } from 'zod';
 import FileUploadComponent from './fileUpload';
 import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup';
 import { ALLOWED_IMAGE_FILE_TYPES } from '@/features/landmarksViewAndHomePage/constants/fileConstants';
+import { getAllowedFileTypesForValidation, getAllowedFileTypesReadable } from '@/features/landmarksViewAndHomePage/utils/fileTypes';
+import { LoadingSpinner } from '@/shared/components/spinner';
 
 // Create landmark form validation schema
 const landmarkSchema = z.object({
   name: z.string().nonempty("Please enter a landmark name"),
   description: z.string().nonempty("Please enter a landmark description"),
   imgFile: z
-    .any()
-    .refine((file) => file instanceof File, "Please enter an file.")
-    .refine((file) => file.size <= MAX_LANDMARK_FILE_SIZE_BYTES, `Max image size must be less than ${MAX_LANDMARK_FILE_SIZE_MB}MB.`)
-    .refine((file) => ALLOWED_IMAGE_FILE_TYPES.includes(file.type),
-      `Only ${ALLOWED_IMAGE_FILE_TYPES.forEach((imgFormat => { return `${imgFormat},`; } ))} formats are supported.`
-    ) // not null and is a File object
+    .instanceof(File, { message: "Please upload a file." })
+    .refine(
+      (file) => file.size <= MAX_LANDMARK_FILE_SIZE_BYTES, 
+      `Max image size must be less than ${MAX_LANDMARK_FILE_SIZE_MB} MB.`
+    )
+    .refine(
+      (file) => `${getAllowedFileTypesForValidation(ALLOWED_IMAGE_FILE_TYPES, "image")}`.includes(file.type.toLowerCase()),
+      `Only ${getAllowedFileTypesReadable(ALLOWED_IMAGE_FILE_TYPES)} formats are supported.`
+    )
   // landmarkLocation: , //TODO
 });
 
@@ -55,52 +60,66 @@ const LandmarkFormV2 = ({
   formType
 }: LandmarkFormV2Props) => {
 
-    const router = useRouter();
-
-  // const count = useRef<number>(0)
-
-  // useEffect(() => {
-  //   count.current += 1;
-  // })
+  const router = useRouter();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
   const [descriptionInputLength, setDescriptionInputLength] = useState<number>(0);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageSrcUrl, setImageFileUrl] = useState<string | null>(null);
-
-  // Form data error states containing messages (client-side validation)
+  // Form data error states containing messages from client-side validation
   const [formInputErrors, setFormInputErrors] = useState<CreateLandmarkFormErrors>({});
-
   const [pending, setPending] = useState(false);
+
+
+
+  function getFormPrefixFromType(): string {
+    const formPrefix: string = (formType === LandmarkFormType.CREATE) 
+      ? CREATE_LANDMARK_STORAGE_PREFIX
+      : UPDATE_LANDMARK_STORAGE_PREFIX
+
+    return formPrefix;
+  }
 
   // Populate form fields on first render
   useEffect(() => {
     if (nameInputRef.current && descriptionInputRef.current) {
-      nameInputRef.current.value        = localStorage.getValue(landmarkNameFormField) || "";
-      descriptionInputRef.current.value = localStorage.getValue(landmarkDescriptionFormField) || "";
+      const savedDataPrefix = getFormPrefixFromType();
+
+      nameInputRef.current.value        = localStorage.getValue(`${savedDataPrefix}${landmarkNameFormField}`) ?? "";
+      descriptionInputRef.current.value = localStorage.getValue(`${savedDataPrefix}${landmarkDescriptionFormField}`) || "";
     }
   }, [nameInputRef.current, descriptionInputRef.current]);
 
-  // Save form field inputs to local storage
+  // Save a form field input to local storage or delete it
   function updateSavedLandmarkInput(inputFieldId: string, deleteSaved: boolean) {
 
-    const formPrefix: string = (formType === LandmarkFormType.CREATE) 
-      ? CREATE_LANDMARK_STORAGE_PREFIX
-      : UPDATE_LANDMARK_STORAGE_PREFIX
+    const savedDataPrefix: string = getFormPrefixFromType();
 
     let key: string;
     let value: string;
 
     switch (inputFieldId) {
       case (landmarkNameFormField): {
-        key = `${formPrefix}${landmarkNameFormField}`;
+        key = `${savedDataPrefix}${landmarkNameFormField}`;
         value = nameInputRef.current?.value || "";
+        if (value) {
+          setFormInputErrors(prevFormInputErrors => ({
+            ...prevFormInputErrors,
+            name: undefined
+          }));
+        }
         break;
       }
       case (landmarkDescriptionFormField): {
-        key = `${formPrefix}${landmarkDescriptionFormField}`;
+        key = `${savedDataPrefix}${landmarkDescriptionFormField}`;
         value = descriptionInputRef.current?.value || "";
+        if (value) {
+          setFormInputErrors(prevFormInputErrors => ({
+            ...prevFormInputErrors,
+            description: undefined
+          }));
+        }
         break;
       }
       default: {
@@ -119,7 +138,9 @@ const LandmarkFormV2 = ({
   function saveImageFileAndSrcPath(file: File) {
 
     // validate entered file
-    const { success, error, data } = landmarkImgSchema.safeParse({file});
+    const { success, error, data } = landmarkImgSchema.safeParse({
+      imgFile: file
+    });
 
     if (!success) {
       
@@ -131,11 +152,24 @@ const LandmarkFormV2 = ({
           imgFile: validationFieldErrors.imgFile,
         };
       });
+
       return;
     }
 
     const imageFile: File = data.imgFile;
+
+    // release memory of old file object url
+    if (imageSrcUrl) {
+      URL.revokeObjectURL(imageSrcUrl);
+    }
+    
     const imageUrl: string = URL.createObjectURL(imageFile);
+
+    // clear file input errors, if any
+    setFormInputErrors(prevFormInputErrors => ({
+      ...prevFormInputErrors,
+      imgFile: undefined
+    }));
 
     setImageFile(imageFile);
     setImageFileUrl(imageUrl);
@@ -148,20 +182,20 @@ const LandmarkFormV2 = ({
     imgFile 
   }: LandmarkData): ValidationFormResult
   {
-      // Validate form fields
-      const { success, error, data } = landmarkSchema.safeParse({
-        name,
-        description,
-        imgFile,
-        // landmarkLocation?: LandmarkLocationData //TODO
-      });
-    
-      // If zod validation was not successful (some data was invalid)
-      if (!success) {
-        const validationFieldErrors = error.flatten().fieldErrors;
-        return { success, validationFieldErrors };
-      }
-      return { success, data };
+    // Validate form fields
+    const { success, error, data } = landmarkSchema.safeParse({
+      name,
+      description,
+      imgFile,
+      // landmarkLocation?: LandmarkLocationData //TODO
+    });
+  
+    // If zod validation was not successful (some data was invalid)
+    if (!success) {
+      const validationFieldErrors = error.flatten().fieldErrors;
+      return { success, validationFieldErrors };
+    }
+    return { success, data };
   }
 
   async function handleLandmarkFormSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -169,8 +203,8 @@ const LandmarkFormV2 = ({
 
     // Validate form fields - return if unsuccessful
     const validationResult = validateFormFields({
-        name: nameInputRef.current?.textContent || "",
-        description: descriptionInputRef.current?.textContent || "",
+        name: nameInputRef.current?.value || "",
+        description: descriptionInputRef.current?.value || "",
         imgFile: imageFile
         // landmarkLocation?: LandmarkLocationData //TODO
       });
@@ -213,7 +247,9 @@ const LandmarkFormV2 = ({
 
       // Create FormData object to send to server
       const formData: FormData = new FormData(); // FormData is set of key/value pairs representing form fields and values - can be used for sending content-type of multipart/formdata
-      formData.append(landmarkImageFileFormField, data.imgFile!);
+            
+      // File parameter name needs to match the form file name in the request containing the formdata
+      formData.append("imageFile", data.imgFile!);
       
       // Make second post request to server sending the image file (id passed in should match the server-side held id of the landmark)
 
@@ -234,9 +270,12 @@ const LandmarkFormV2 = ({
       }
 
       // clear form data from local storage and object url
-      updateSavedLandmarkInput(landmarkNameFormField, false);
-      updateSavedLandmarkInput(landmarkDescriptionFormField, false);
-      URL.revokeObjectURL(imageSrcUrl || "");
+      updateSavedLandmarkInput(landmarkNameFormField, true);
+      updateSavedLandmarkInput(landmarkDescriptionFormField, true);
+
+      if (imageSrcUrl) {
+        URL.revokeObjectURL(imageSrcUrl);
+      }
 
       router.refresh();
       onClose(false);
@@ -253,43 +292,64 @@ const LandmarkFormV2 = ({
 
   return (
     <form 
-      className='flex flex-col'
+      className='flex flex-col justify-center gap-4'
       onSubmit={handleLandmarkFormSubmit}
     >
-      
-      {/* <p>{count.current}</p> */}
-      <label htmlFor={landmarkNameFormField}>Landmark Name</label>
-      <input
-        type='text'
-        name={landmarkNameFormField}
-        id={landmarkNameFormField}
-        ref={nameInputRef}
-        onChange={() => updateSavedLandmarkInput(landmarkNameFormField, true)}
-        className='border-1'
-        disabled={pending}
-      />
-      {formInputErrors.description && (
-        <InputErrorLabelsGroup errorMessages={formInputErrors.description}/>
-      )}
+      <div className={`flex flex-row justify-between gap-10`}>
+        <label htmlFor={landmarkNameFormField}>Landmark Name</label>
+        <div className='flex flex-col'>
+          <input
+            type='text'
+            name={landmarkNameFormField}
+            id={landmarkNameFormField}
+            ref={nameInputRef}
+            onChange={() => updateSavedLandmarkInput(landmarkNameFormField, false)}
+            className={`
+              m-0 py-0 ps-2 pe-0 
+              border-1 rounded-sm 
+              h-10 w-[30vw]
+              focus:outline-2  focus:outline-app-cyan
+              ${formInputErrors.name && 'border-error'}
+            `}
+            disabled={pending}
+          />
+          {formInputErrors.name && (
+            <InputErrorLabelsGroup errorMessages={formInputErrors.name}/>
+          )}
+        </div>
+      </div>
 
-      <label htmlFor={landmarkDescriptionFormField}>Landmark Description</label>
-      <textarea
-        name={landmarkDescriptionFormField}
-        id={landmarkDescriptionFormField}
-        maxLength={MAX_LANDMARK_DESCRIPTION_LENGTH}
-        ref={descriptionInputRef}
-        onChange={() => {
-          updateSavedLandmarkInput(landmarkDescriptionFormField, true)
-          setDescriptionInputLength(descriptionInputRef.current?.textLength || 0);
-        }}
-        className='border-1'
-        disabled={pending}
-      >
-      </textarea>
-      <p>{descriptionInputLength}&nbsp;/&nbsp;{MAX_LANDMARK_DESCRIPTION_LENGTH}</p>
-      {formInputErrors.description && (
-        <InputErrorLabelsGroup errorMessages={formInputErrors.description}/>
-      )}
+      <div className={`flex flex-row justify-between gap-10`}>
+        <label htmlFor={landmarkDescriptionFormField}>Landmark Description</label>
+         <div className='flex flex-col'>
+          <div className="flex flex-col gap-1">
+            <textarea
+              name={landmarkDescriptionFormField}
+              id={landmarkDescriptionFormField}
+              maxLength={MAX_LANDMARK_DESCRIPTION_LENGTH}
+              ref={descriptionInputRef}
+              onChange={() => {
+                updateSavedLandmarkInput(landmarkDescriptionFormField, false)
+                setDescriptionInputLength(descriptionInputRef.current?.textLength || 0);
+              }}
+              className={`
+                m-0 py-2 px-2 
+                border-1 rounded-sm 
+                h-50 w-[30vw]
+                resize-y max-h-143 min-h-50
+                focus:outline-2 focus:outline-app-cyan
+                ${formInputErrors.description && 'border-error'}
+              `}
+              disabled={pending}
+            >
+            </textarea>
+            <p>{descriptionInputLength}&nbsp;/&nbsp;{MAX_LANDMARK_DESCRIPTION_LENGTH}</p>
+          </div>
+          {formInputErrors.description && (
+            <InputErrorLabelsGroup errorMessages={formInputErrors.description}/>
+          )}
+        </div>
+      </div>
       
       <div className='flex flex-row justify-between gap-10'>
         <p className='p-0 m-0 inline-block'>Upload Photos</p>
@@ -314,16 +374,22 @@ const LandmarkFormV2 = ({
           text-sm px-5 py-3
           md:text-base md:px-2 md:py-3
           roboto
-          hover: cursor-pointer
           border-1
           focus:bg-app-light-cyan
           ${pending
-            ? 'bg-app-tertiary text-white'
+            ? 'bg-app-tertiary text-white hover:cursor-auto'
             : 'bg-app-cyan hover:bg-app-light-cyan text-white'
           }
         `}
       >
-        { pending ? '...' : 'Create' } {/* TODO: render spinner while pending is true */}
+        { pending 
+          ? 
+          <div className='flex flex-row justify-center items-center'>
+            <LoadingSpinner color='white' size={25}/>
+          </div>
+          : 
+          'Create'
+        }
       </Button>
     </form>
   )

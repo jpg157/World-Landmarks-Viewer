@@ -12,12 +12,9 @@
   --color-app-purple: var(--color-fuchsia-600);
   --color-app-cyan: var(--color-cyan-500);
   --color-app-light-cyan: var(--color-cyan-400);
-
   --color-app-destructive: var(--color-red-600);
 
-  /* --color-app-primary:  */
   --color-app-secondary: var(--color-gray-200);
-  /* --color-app-test: #e3e0d6; */
   --color-app-tertiary: #C8C8C8;
 
   --color-app-primary-text: var(--color-black);

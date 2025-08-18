@@ -71,7 +71,7 @@ const CreateLandmarkComponentGroup = ({
       )}
 
       {(bulkCreateModalShown && currentUser) && (
-         // Using AuthGuard component for security in case currentUser was not set correctly
+         // Using AuthGuard component for security in case bulkCreateModalShown and currentUser was not set correctly
          <AuthGuard loginReturnUrl={AUTH0_RETURN_URLS.VIEW_LANDMARKS} requiredUserRole={UserRolesEnum.ADMIN}>
           <Modal 
             isOpen={bulkCreateModalShown}
