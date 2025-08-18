@@ -199,7 +199,7 @@ export const BulkCreateLandmarkForm = ({
       >
         { pending 
           ? 
-          <div className='flex flex-row justify-center items-center'>
+          <div className='flex justify-center items-center'>
             <LoadingSpinner color='white' size={25}/>
           </div>
           : 

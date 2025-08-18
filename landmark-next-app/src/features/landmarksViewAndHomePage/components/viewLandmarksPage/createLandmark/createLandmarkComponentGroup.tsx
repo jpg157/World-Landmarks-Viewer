@@ -10,7 +10,7 @@ import { Modal, ModalTitle } from '@/shared/components/modal';
 // import { LandmarkForm } from './landmarkForm';
 import { BulkCreateLandmarkForm } from './bulkCreateLandmarkForm';
 import { LandmarkFormType } from '@/features/landmarksViewAndHomePage/constants/landmarkFormTypeEnum';
-import LandmarkFormV2 from './landmarkFormV2';
+import LandmarkForm from './landmarkForm';
 
 const CreateLandmarkComponentGroup = ({
   currentUser
@@ -61,7 +61,7 @@ const CreateLandmarkComponentGroup = ({
           >
             <div className='flex flex-col justify-center gap-4'>
               <ModalTitle title={"Add a New Landmark"}/>
-              <LandmarkFormV2 
+              <LandmarkForm 
                 onClose={setCreateModalShown}
                 formType={LandmarkFormType.CREATE}
               />

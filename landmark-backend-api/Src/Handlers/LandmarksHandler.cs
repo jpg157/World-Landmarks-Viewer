@@ -57,6 +57,7 @@ public static class LandmarksHandler
 
       if (landmark == null)
       {
+        Console.WriteLine($"Landmark is null: landmark: {landmark}");
         return TypedResults.NotFound(); // 404
       }
 

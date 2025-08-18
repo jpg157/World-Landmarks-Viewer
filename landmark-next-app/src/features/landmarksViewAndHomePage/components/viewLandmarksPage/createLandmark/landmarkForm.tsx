@@ -18,6 +18,8 @@ import InputErrorLabelsGroup from '@/shared/components/inputErrorLabelsGroup';
 import { ALLOWED_IMAGE_FILE_TYPES } from '@/features/landmarksViewAndHomePage/constants/fileConstants';
 import { getAllowedFileTypesForValidation, getAllowedFileTypesReadable } from '@/features/landmarksViewAndHomePage/utils/fileTypes';
 import { LoadingSpinner } from '@/shared/components/spinner';
+import { getLandmarkById } from '@/features/landmarksViewAndHomePage/api/landmarksView/getLandmarkById';
+import { ServerActionResponse } from '@/shared/types';
 
 // Create landmark form validation schema
 const landmarkSchema = z.object({
@@ -50,15 +52,17 @@ type ValidationFormResult =
     data: LandmarkData
   };
 
-type LandmarkFormV2Props = {
+type LandmarkFormProps = {
   onClose: (open: boolean) => void;
   formType: LandmarkFormType;
+  landmarkId?: number;
 };
 
-const LandmarkFormV2 = ({
+const LandmarkForm = ({
   onClose,
-  formType
-}: LandmarkFormV2Props) => {
+  formType,
+  landmarkId
+}: LandmarkFormProps) => {
 
   const router = useRouter();
 
@@ -71,7 +75,7 @@ const LandmarkFormV2 = ({
   const [formInputErrors, setFormInputErrors] = useState<CreateLandmarkFormErrors>({});
   const [pending, setPending] = useState(false);
 
-
+  
 
   function getFormPrefixFromType(): string {
     const formPrefix: string = (formType === LandmarkFormType.CREATE) 
@@ -81,14 +85,53 @@ const LandmarkFormV2 = ({
     return formPrefix;
   }
 
+  async function populateFormFields() {
+
+    if (!nameInputRef.current || !descriptionInputRef.current) {
+      return;
+    }
+
+    switch (formType) {
+      case LandmarkFormType.CREATE:
+      {
+        // Get data saved in localstorage
+        const savedDataPrefix = getFormPrefixFromType();
+
+        nameInputRef.current.value        = localStorage.getValue(`${savedDataPrefix}${landmarkNameFormField}`) ?? "";
+        descriptionInputRef.current.value = localStorage.getValue(`${savedDataPrefix}${landmarkDescriptionFormField}`) || "";
+        break;
+      }
+      case (LandmarkFormType.UPDATE):
+      {
+        // Get landmark data from server by landmark id
+        try {
+          if (!landmarkId) {
+            throw new Error("There was a problem while fetching landmark data");
+          }
+          
+          const getByIdResponse = await getLandmarkById(landmarkId);
+          
+          if (!getByIdResponse.ok) {
+            throw new Error(getByIdResponse.errorMessage);
+          }
+
+          const landmark: Landmark = getByIdResponse.data;
+          
+          nameInputRef.current.value        = landmark.name;
+          descriptionInputRef.current.value = landmark.description;
+        }
+        catch (error) {
+          alert(`landmarkId: ${landmarkId}`);
+          alert((error instanceof Error) ? error.message : "There was a problem while fetching landmark data");
+        }
+        break;
+      }
+    }
+  }
+
   // Populate form fields on first render
   useEffect(() => {
-    if (nameInputRef.current && descriptionInputRef.current) {
-      const savedDataPrefix = getFormPrefixFromType();
-
-      nameInputRef.current.value        = localStorage.getValue(`${savedDataPrefix}${landmarkNameFormField}`) ?? "";
-      descriptionInputRef.current.value = localStorage.getValue(`${savedDataPrefix}${landmarkDescriptionFormField}`) || "";
-    }
+    populateFormFields();
   }, [nameInputRef.current, descriptionInputRef.current]);
 
   // Save a form field input to local storage or delete it
@@ -384,7 +427,7 @@ const LandmarkFormV2 = ({
       >
         { pending 
           ? 
-          <div className='flex flex-row justify-center items-center'>
+          <div className='flex justify-center items-center'>
             <LoadingSpinner color='white' size={25}/>
           </div>
           : 
@@ -395,4 +438,4 @@ const LandmarkFormV2 = ({
   )
 }
 
-export default LandmarkFormV2
+export default LandmarkForm
