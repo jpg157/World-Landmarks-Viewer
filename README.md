@@ -43,16 +43,17 @@ Users can view landmark details to learn about their cultural and historical sig
    git clone https://github.com/jpg157/World-Landmarks-Viewer.git
    ```
 2. **Install frontend dependencies**
+  - In `landmark-next-app` directory, run:
    ```bash
-   cd landmark-next-app
    npm i
    ```
 3. **Install backend dependencies**
+- Install .NET 9.0 (if haven't already)
+- To check that all of the required .NET runtime is installed, in `landmark-backend-api` directory, run:
    ```bash
-   cd ../landmark-backend-api
    dotnet restore
    ```
-4. **Setup configuration files**
+5. **Setup configuration files**
 
    Create .env files in the root levels of the frontend and backend directories:
    
